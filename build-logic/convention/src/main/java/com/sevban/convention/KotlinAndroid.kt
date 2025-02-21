@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.samples.apps.nowinandroid
+package com.sevban.convention
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion

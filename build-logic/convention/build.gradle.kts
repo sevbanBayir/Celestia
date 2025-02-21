@@ -1,13 +1,48 @@
 plugins {
-    id("java-library")
-    alias(libs.plugins.org.jetbrains.kotlin.jvm)
+    `kotlin-dsl`
 }
+
+group = "com.sevban.buildlogic"
+
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
+
 kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
+    // This is required for Kotlin 1.8+ for the plugin to work correctly
+    jvmToolchain(17)
+}
+
+dependencies {
+    compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.kotlin.gradle.plugin)
+    compileOnly(libs.android.tools.common)
+    compileOnly(libs.compose.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
+}
+
+gradlePlugin {
+    plugins {
+        register("androidApplication") {
+            id = "sevban.android.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = "sevban.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin" 
+        }
+        register("androidFeature") {
+            id = "sevban.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
+        register("androidHilt") {
+            id = "sevban.android.hilt" 
+            implementationClass = "AndroidHiltConventionPlugin"
+        }
+        register("androidCompose") {
+            id = "sevban.android.compose"
+            implementationClass = "AndroidComposeConventionPlugin"
+        }
     }
 }
