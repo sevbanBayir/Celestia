@@ -82,5 +82,7 @@ lint/tmp/
 # Android Profiling
 *.hprof
 
+celestia-keystore
+
 #
 .DS_Store

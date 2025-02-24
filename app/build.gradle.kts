@@ -1,20 +1,16 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.sevban.android.application)
+    alias(libs.plugins.sevban.android.application.compose)
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.google.maps)
-    alias(libs.plugins.kotlin.compose.compiler)
 }
 
 android {
     namespace = "com.sevban.weatherapp"
-    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.sevban.weatherapp"
-        minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -32,17 +28,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-    buildFeatures {
-        compose = true
-        buildConfig = true
     }
     secrets {
         defaultPropertiesFileName = "local.defaults.properties"

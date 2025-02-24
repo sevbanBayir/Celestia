@@ -26,8 +26,8 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 
 /**
  * Configure base Kotlin with Android options
@@ -36,25 +36,25 @@ internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = 34
+        compileSdk = 35
 
         defaultConfig {
-            minSdk = 21
+            minSdk = 26
         }
 
         compileOptions {
             // Up to Java 11 APIs are available through desugaring
             // https://developer.android.com/studio/write/java11-minimal-support-table
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
-            isCoreLibraryDesugaringEnabled = true
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+            isCoreLibraryDesugaringEnabled = false
         }
     }
 
     configureKotlin<KotlinAndroidProjectExtension>()
 
     dependencies {
-        add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
+//        add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
     }
 }
 
@@ -65,8 +65,8 @@ internal fun Project.configureKotlinJvm() {
     extensions.configure<JavaPluginExtension> {
         // Up to Java 11 APIs are available through desugaring
         // https://developer.android.com/studio/write/java11-minimal-support-table
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     configureKotlin<KotlinJvmProjectExtension>()
@@ -75,7 +75,7 @@ internal fun Project.configureKotlinJvm() {
 /**
  * Configure base Kotlin options
  */
-private inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin() = configure<T> {
+private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() = configure<T> {
     // Treat all Kotlin warnings as errors (disabled by default)
     // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
     val warningsAsErrors: String? by project
@@ -84,7 +84,7 @@ private inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin
         is KotlinJvmProjectExtension -> compilerOptions
         else -> TODO("Unsupported project extension $this ${T::class}")
     }.apply {
-        jvmTarget = JvmTarget.JVM_11
+        jvmTarget = JvmTarget.JVM_17
         allWarningsAsErrors = warningsAsErrors.toBoolean()
         freeCompilerArgs.add(
             // Enable experimental coroutines APIs, including Flow

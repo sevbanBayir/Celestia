@@ -16,14 +16,18 @@ kotlin {
 
 dependencies {
     compileOnly(libs.android.gradlePlugin)
-    compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.android.tools.common)
     compileOnly(libs.compose.gradlePlugin)
+    compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.ksp.gradlePlugin)
 }
 
 gradlePlugin {
     plugins {
+        register("androidApplicationCompose") {
+            id = "sevban.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
         register("androidApplication") {
             id = "sevban.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
@@ -37,7 +41,7 @@ gradlePlugin {
             implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("androidHilt") {
-            id = "sevban.android.hilt" 
+            id = "sevban.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
         register("androidCompose") {

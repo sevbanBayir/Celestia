@@ -1,6 +1,5 @@
 [versions]
 # SDK
-kotlinGradlePlugin = "1.9.0"
 minSdk = "26"
 compileSdk = "35"
 targetSdk = "35"
@@ -98,7 +97,7 @@ androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", versi
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Exoplayer" }
 
 # Dependencies of the included build-logic
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
@@ -150,4 +149,7 @@ google-maps = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-p
 kotlin-parcelize = { id = "kotlin-parcelize" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+sevban-android-application = { id = "sevban.android.application" }
+sevban-android-application-compose = { id = "sevban.android.application.compose" }
 

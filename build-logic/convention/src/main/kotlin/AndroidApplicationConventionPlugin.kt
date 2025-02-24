@@ -1,5 +1,5 @@
 import com.android.build.api.dsl.ApplicationExtension
-import org.gradle.api.JavaVersion
+import com.sevban.convention.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -14,16 +14,11 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
             extensions.configure<ApplicationExtension> {
                 defaultConfig {
-                    targetSdk = 34
+                    targetSdk = 35
                 }
 
                 buildFeatures {
                     buildConfig = true
-                }
-
-                compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_17
-                    targetCompatibility = JavaVersion.VERSION_17
                 }
 
                 packaging {
@@ -31,6 +26,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                         excludes += "/META-INF/{AL2.0,LGPL2.1}"
                     }
                 }
+
+                configureKotlinAndroid(this)
             }
         }
     }
