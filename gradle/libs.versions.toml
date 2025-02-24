@@ -155,4 +155,5 @@ sevban-android-library = { id = "sevban.android.library" }
 sevban-android-library-compose = { id = "sevban.android.library.compose" }
 sevban-android-feature = { id = "sevban.android.feature" }
 sevban-android-hilt = { id = "sevban.android.hilt" }
+sevban-jvm-library = { id = "sevban.jvm.library" }
 

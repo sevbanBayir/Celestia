@@ -48,5 +48,9 @@ gradlePlugin {
             id = "sevban.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
+        register("jvmLibrary") {
+            id = "sevban.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
     }
 }
