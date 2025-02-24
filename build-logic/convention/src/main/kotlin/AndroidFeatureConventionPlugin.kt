@@ -12,7 +12,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             pluginManager.apply {
                 apply("sevban.android.library")
                 apply("sevban.android.hilt")
-                apply("sevban.android.compose")
             }
 
             extensions.configure<LibraryExtension> {
@@ -24,6 +23,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
                 add("implementation", project(":core:ui"))
+                add("implementation", project(":core:model"))
+                add("implementation", project(":core:domain"))
                 add("implementation", project(":core:designsystem"))
                 add("implementation", project(":core:common"))
 

@@ -116,7 +116,6 @@ compose = [
 ]
 
 compose-testing = [
-    "compose-bom",
     "compose-ui-testing-junit4",
     "compose-ui-testing-manifest",
 ]
@@ -152,4 +151,8 @@ kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 sevban-android-application = { id = "sevban.android.application" }
 sevban-android-application-compose = { id = "sevban.android.application.compose" }
+sevban-android-library = { id = "sevban.android.library" }
+sevban-android-library-compose = { id = "sevban.android.library.compose" }
+sevban-android-feature = { id = "sevban.android.feature" }
+sevban-android-hilt = { id = "sevban.android.hilt" }
 

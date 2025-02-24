@@ -45,8 +45,8 @@ gradlePlugin {
             implementationClass = "AndroidHiltConventionPlugin"
         }
         register("androidCompose") {
-            id = "sevban.android.compose"
-            implementationClass = "AndroidComposeConventionPlugin"
+            id = "sevban.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
     }
 }
