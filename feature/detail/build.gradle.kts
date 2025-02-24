@@ -14,8 +14,6 @@ android {
 }
 
 dependencies {
-    testImplementation(projects.core.testing)
-
     // Coil
     implementation(libs.coil.compose)
 
@@ -24,6 +22,7 @@ dependencies {
 
     // Testing
     testImplementation(libs.bundles.testing)
+    testImplementation(projects.core.testing)
     androidTestImplementation(libs.bundles.android.testing)
     androidTestImplementation(libs.bundles.compose.testing)
 }

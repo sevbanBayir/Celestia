@@ -20,6 +20,7 @@ internal fun Project.configureAndroidCompose(
             add("implementation", platform(bom))
             add("androidTestImplementation", platform(bom))
             add("implementation", libs.findLibrary("compose-ui-tooling-preview").get())
+            add("implementation", libs.findLibrary("compose-material3").get())
             add("debugImplementation", libs.findLibrary("compose-ui-tooling").get())
         }
 
