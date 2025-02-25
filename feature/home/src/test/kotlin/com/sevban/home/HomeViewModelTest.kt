@@ -80,7 +80,6 @@ class HomeViewModelTest {
             }
         }
 
-    //TODO : Should not stay loading anymore, it should be error with Location error type
     @Test
     fun `given no location permission when weather is fetched then weatherState should be stay Loading`() =
         runTest {
@@ -94,6 +93,7 @@ class HomeViewModelTest {
                 assertThat(firstItem).isEqualTo(WeatherState.Loading)
                 advanceTimeBy(60.seconds)
                 expectNoEvents()
+                cancelAndIgnoreRemainingEvents()
                 assertThat(locationObserver.currentLocationCallTimes).isEqualTo(retryCount.toInt())
             }
         }

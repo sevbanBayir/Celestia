@@ -17,6 +17,7 @@ import com.sevban.ui.model.toWeatherUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -71,36 +72,43 @@ class HomeViewModel @Inject constructor(
                 }
                 latitude to longitude
             }.retry { cause ->
-                (cause is MissingLocationPermissionException && !uiState.value.isPermissionDeclined)
+                (cause is MissingLocationPermissionException && !uiState.value.isPermissionDeclined).also {
+                    if (it) delay(MISSING_PERMISSION_RETRY_DURATION)
+                }
             }
                 .flatMapLatest<Pair<Double, Double>, WeatherState> { (latitude, longitude) ->
-                combine(
-                    getWeatherUseCase.execute(
-                        lat = latitude.toString(),
-                        long = longitude.toString()
-                    ),
-                    getForecastUseCase.execute(
-                        lat = latitude.toString(),
-                        long = longitude.toString()
-                    )
-                ) { weather, forecast ->
-                    _uiState.update { it.copy(lastFetchedTime = timeFormatter.format(LocalDateTime.now())) }
-                    WeatherState.Success(
-                        weather = weather.toWeatherUiModel(),
-                        forecast = forecast.toForecastUiModel()
-                    )
-                }
-            }.catch {
-                if (it is MissingLocationPermissionException) {
-                    emit(WeatherState.Error(Failure(errorType = ErrorType.LOCATION_ERROR)))
-                    handleMissingLocationPermission()
-                    return@catch
-                }
-                else {
-                    val failure = it as? Failure ?: Failure(throwable = it)
-                    emit(WeatherState.Error(failure))
-                }
-            }.onStart { emit(WeatherState.Loading) }
+                    combine(
+                        getWeatherUseCase.execute(
+                            lat = latitude.toString(),
+                            long = longitude.toString()
+                        ),
+                        getForecastUseCase.execute(
+                            lat = latitude.toString(),
+                            long = longitude.toString()
+                        )
+                    ) { weather, forecast ->
+                        _uiState.update {
+                            it.copy(
+                                lastFetchedTime = timeFormatter.format(
+                                    LocalDateTime.now()
+                                )
+                            )
+                        }
+                        WeatherState.Success(
+                            weather = weather.toWeatherUiModel(),
+                            forecast = forecast.toForecastUiModel()
+                        )
+                    }
+                }.catch {
+                    if (it is MissingLocationPermissionException) {
+                        emit(WeatherState.Error(Failure(errorType = ErrorType.LOCATION_ERROR)))
+                        handleMissingLocationPermission()
+                        return@catch
+                    } else {
+                        val failure = it as? Failure ?: Failure(throwable = it)
+                        emit(WeatherState.Error(failure))
+                    }
+                }.onStart { emit(WeatherState.Loading) }
         }
         .stateIn(
             scope = viewModelScope,
