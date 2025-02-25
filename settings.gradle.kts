@@ -29,6 +29,7 @@ include(":core:ui")
 include(":core:designsystem")
 include(":core:common")
 include(":core:testing")
+include(":core:androidtest")
 
 include(":feature")
 include(":feature:home")

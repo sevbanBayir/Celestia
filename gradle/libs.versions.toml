@@ -31,6 +31,9 @@ appcompat = "1.7.0"
 hiltNavigation = "1.2.0"
 room = "2.6.1"
 media3Exoplayer = "1.5.1"
+coreKtx = "1.6.1"
+runner = "1.6.2"
+junit4 = "4.13.2"
 
 # PLUGIN
 androidGradlePlugin = "8.8.1"
@@ -44,6 +47,10 @@ androidTools = "31.8.1"
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+
+androidx-core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreKtx" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "runner" }
+
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
@@ -56,6 +63,7 @@ compose-ui-testing-manifest = { module = "androidx.compose.ui:ui-test-manifest" 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "daggerHilt" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "daggerHilt" }
 
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
@@ -83,6 +91,7 @@ google-maps-compose = { module = "com.google.maps.android:maps-compose", version
 google-maps-compose-utils = { module = "com.google.maps.android:maps-compose-utils", version.ref = "googleMapsCompose" }
 google-maps-places = { module = "com.google.android.libraries.places:places", version.ref = "googleMapsPlaces" }
 
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junitJupiter" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junitJupiter" }
@@ -131,12 +140,13 @@ testing = [
 ]
 
 android-testing = [
+    "androidx-core-ktx",
+    "androidx-test-runner",
     "androidx-junit",
     "androidx-espresso-core",
 ]
 
 [plugins]
-java-library = { id = "java-library" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

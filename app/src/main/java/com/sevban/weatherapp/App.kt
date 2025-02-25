@@ -1,7 +1,10 @@
 package com.sevban.weatherapp
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -19,7 +22,8 @@ fun App(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        contentWindowInsets = WindowInsets.safeContent
     ) { scaffoldPadding ->
         WeatherAppNavHost(
             appState = appState,
@@ -28,8 +32,6 @@ fun App(
             },
             modifier = Modifier
                 .padding(scaffoldPadding)
-                .fillMaxSize()
-                .statusBarsPadding()
         )
     }
 }

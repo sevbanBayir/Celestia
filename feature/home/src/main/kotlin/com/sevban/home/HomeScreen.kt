@@ -35,11 +35,11 @@ fun HomeScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(horizontal = 16.dp)
             .background(MaterialTheme.colorScheme.background)
     ) {
         AnimatedContent(
             targetState = weatherState,
-            modifier = Modifier.padding(16.dp),
             label = "WeatherAnimatedContent"
         ) {
             when (it) {

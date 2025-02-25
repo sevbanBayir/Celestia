@@ -17,7 +17,9 @@ fun DetailScreen(
     whenErrorOccurred: suspend (Throwable, String?) -> Unit,
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize().padding(16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
     ) {
         when (forecastState) {
             is ForecastState.Success -> AllDaysForecastContent(forecast = forecastState.forecast)
