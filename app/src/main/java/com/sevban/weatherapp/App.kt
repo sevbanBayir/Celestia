@@ -2,7 +2,7 @@ package com.sevban.weatherapp
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -27,9 +27,9 @@ fun App(
                 snackbarHostState.showSnackbar(message ?: failure.toString())
             },
             modifier = Modifier
-                .safeDrawingPadding()
                 .padding(scaffoldPadding)
                 .fillMaxSize()
+                .statusBarsPadding()
         )
     }
 }
