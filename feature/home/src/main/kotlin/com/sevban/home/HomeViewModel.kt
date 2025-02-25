@@ -3,6 +3,7 @@ package com.sevban.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sevban.common.helper.timeFormatter
 import com.sevban.common.location.LocationObserver
 import com.sevban.common.location.MissingLocationPermissionException
 import com.sevban.common.model.ErrorType
@@ -16,7 +17,6 @@ import com.sevban.ui.model.toWeatherUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
@@ -48,8 +47,11 @@ class HomeViewModel @Inject constructor(
 
     private val retryTrigger = Channel<Unit>()
 
+    private val _permissionTrigger = Channel<Unit?>()
+    val permissionTrigger = _permissionTrigger.receiveAsFlow()
+
     val weatherState = retryTrigger.receiveAsFlow()
-        .onStart { emit(Unit) }
+        .onStart { emit(Unit); _permissionTrigger.send(Unit) }
         .flatMapLatest {
             combine(
                 locationObserver.getCurrentLocation(),
@@ -68,7 +70,10 @@ class HomeViewModel @Inject constructor(
                     )
                 }
                 latitude to longitude
-            }.flatMapLatest<Pair<Double, Double>, WeatherState> { (latitude, longitude) ->
+            }.retry { cause ->
+                (cause is MissingLocationPermissionException && !uiState.value.isPermissionDeclined)
+            }
+                .flatMapLatest<Pair<Double, Double>, WeatherState> { (latitude, longitude) ->
                 combine(
                     getWeatherUseCase.execute(
                         lat = latitude.toString(),
@@ -79,13 +84,7 @@ class HomeViewModel @Inject constructor(
                         long = longitude.toString()
                     )
                 ) { weather, forecast ->
-                    _uiState.update {
-                        it.copy(
-                            lastFetchedTime = LocalDateTime.now().format(
-                                DateTimeFormatter.ofPattern("HH:mm")
-                            )
-                        )
-                    }
+                    _uiState.update { it.copy(lastFetchedTime = timeFormatter.format(LocalDateTime.now())) }
                     WeatherState.Success(
                         weather = weather.toWeatherUiModel(),
                         forecast = forecast.toForecastUiModel()
@@ -93,12 +92,14 @@ class HomeViewModel @Inject constructor(
                 }
             }.catch {
                 if (it is MissingLocationPermissionException) {
-                    onEvent(HomeScreenEvent.OnLocationPermissionDeclined)
-                    emit(WeatherState.Error(Failure(ErrorType.LOCATION_ERROR)))
+                    emit(WeatherState.Error(Failure(errorType = ErrorType.LOCATION_ERROR)))
+                    handleMissingLocationPermission()
                     return@catch
                 }
-                val failure = it as? Failure ?: Failure(throwable = it)
-                emit(WeatherState.Error(failure))
+                else {
+                    val failure = it as? Failure ?: Failure(throwable = it)
+                    emit(WeatherState.Error(failure))
+                }
             }.onStart { emit(WeatherState.Loading) }
         }
         .stateIn(
@@ -112,20 +113,22 @@ class HomeViewModel @Inject constructor(
             is HomeScreenEvent.OnLocationPermissionDeclined -> {
                 _uiState.update {
                     it.copy(
-                        shouldShowPermanentlyDeclinedDialog = true
+                        isPermissionDeclined = true,
                     )
                 }
+                _permissionTrigger.trySend(null)
             }
 
             is HomeScreenEvent.OnLocationPermissionPermanentlyDeclined -> {
                 _uiState.update {
                     it.copy(
-                        shouldShowPermanentlyDeclinedDialog = true
+                        shouldShowPermanentlyDeclinedDialog = true,
+                        isPermissionPermanentlyDeclined = true
                     )
                 }
             }
 
-            is HomeScreenEvent.OnPermissionDialogDismissed -> {
+            is HomeScreenEvent.OnPermanentlyDeclinedDialogDismissed -> {
                 _uiState.update {
                     it.copy(
                         shouldShowPermanentlyDeclinedDialog = false
@@ -138,6 +141,18 @@ class HomeViewModel @Inject constructor(
                     retryTrigger.send(Unit)
                 }
             }
+        }
+    }
+
+    private fun handleMissingLocationPermission() {
+        if (uiState.value.isPermissionPermanentlyDeclined) {
+            _uiState.update {
+                it.copy(
+                    shouldShowPermanentlyDeclinedDialog = true
+                )
+            }
+        } else {
+            _permissionTrigger.trySend(Unit)
         }
     }
 
