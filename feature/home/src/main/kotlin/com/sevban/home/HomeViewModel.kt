@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sevban.common.location.LocationObserver
 import com.sevban.common.location.MissingLocationPermissionException
+import com.sevban.common.model.ErrorType
 import com.sevban.common.model.Failure
 import com.sevban.domain.usecase.GetForecastUseCase
 import com.sevban.domain.usecase.GetWeatherUseCase
@@ -67,10 +68,6 @@ class HomeViewModel @Inject constructor(
                     )
                 }
                 latitude to longitude
-            }.retry { cause ->
-                (cause is MissingLocationPermissionException).also {
-                    if (it) delay(MISSING_PERMISSION_RETRY_DURATION)
-                }
             }.flatMapLatest<Pair<Double, Double>, WeatherState> { (latitude, longitude) ->
                 combine(
                     getWeatherUseCase.execute(
@@ -95,6 +92,11 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             }.catch {
+                if (it is MissingLocationPermissionException) {
+                    onEvent(HomeScreenEvent.OnLocationPermissionDeclined)
+                    emit(WeatherState.Error(Failure(ErrorType.LOCATION_ERROR)))
+                    return@catch
+                }
                 val failure = it as? Failure ?: Failure(throwable = it)
                 emit(WeatherState.Error(failure))
             }.onStart { emit(WeatherState.Loading) }
