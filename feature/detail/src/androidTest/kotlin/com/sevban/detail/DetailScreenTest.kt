@@ -3,7 +3,6 @@ package com.sevban.detail
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithTag
 import com.sevban.common.model.ErrorType
 import com.sevban.common.model.Failure
 import org.junit.Rule
