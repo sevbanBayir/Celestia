@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.sevban.android.application)
-    alias(libs.plugins.sevban.android.application.compose)
+    alias(libs.plugins.celestia.android.application)
+    alias(libs.plugins.celestia.android.application.compose)
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.google.maps)

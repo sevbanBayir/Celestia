@@ -158,12 +158,12 @@ google-maps = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-p
 kotlin-parcelize = { id = "kotlin-parcelize" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-
-sevban-android-application = { id = "sevban.android.application" }
-sevban-android-application-compose = { id = "sevban.android.application.compose" }
-sevban-android-library = { id = "sevban.android.library" }
-sevban-android-library-compose = { id = "sevban.android.library.compose" }
-sevban-android-feature = { id = "sevban.android.feature" }
-sevban-android-hilt = { id = "sevban.android.hilt" }
-sevban-jvm-library = { id = "sevban.jvm.library" }
+# Plugins defined by project itself
+celestia-android-application = { id = "celestia.android.application" }
+celestia-android-application-compose = { id = "celestia.android.application.compose" }
+celestia-android-library = { id = "celestia.android.library" }
+celestia-android-library-compose = { id = "celestia.android.library.compose" }
+celestia-android-feature = { id = "celestia.android.feature" }
+celestia-android-hilt = { id = "celestia.android.hilt" }
+celestia-jvm-library = { id = "celestia.jvm.library" }
 

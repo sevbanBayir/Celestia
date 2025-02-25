@@ -1,3 +1,3 @@
 plugins {
-    alias(libs.plugins.sevban.jvm.library)
+    alias(libs.plugins.celestia.jvm.library)
 }

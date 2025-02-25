@@ -33,16 +33,10 @@ fun SearchBar(
         placeholder = { Text(text = stringResource(R.string.map_tf_search)) },
         modifier = modifier.clearFocusOnKeyboardDismiss(),
         leadingIcon = {
-            AnimatedVisibility(
-                visible = searchQuery.isEmpty(),
-                enter = slideInHorizontally { -2 * it } + fadeIn(),
-                exit = slideOutHorizontally { -2 * it } + fadeOut(),
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = stringResource(R.string.cd_search_icon)
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = stringResource(R.string.cd_search_icon)
+            )
         },
         trailingIcon = {
             AnimatedVisibility(

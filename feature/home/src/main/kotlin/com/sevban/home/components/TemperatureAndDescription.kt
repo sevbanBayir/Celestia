@@ -31,7 +31,7 @@ fun TemperatureAndDescription(
                 temp
             ),
             modifier = Modifier.offset(8.dp),
-            style = MaterialTheme.typography.displayLarge.copy(fontSize = 96.sp)
+            style = MaterialTheme.typography.displaySmall.copy(fontSize = 96.sp)
         )
 
         Text(

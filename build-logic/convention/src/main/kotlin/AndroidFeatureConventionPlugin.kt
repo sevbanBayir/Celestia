@@ -10,8 +10,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                apply("sevban.android.library")
-                apply("sevban.android.hilt")
+                apply("celestia.android.library")
+                apply("celestia.android.hilt")
             }
 
             extensions.configure<LibraryExtension> {
