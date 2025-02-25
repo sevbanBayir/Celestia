@@ -18,11 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -34,7 +29,6 @@ import com.sevban.location.components.GoogleMapWithLoading
 import com.sevban.location.components.SearchbarWithList
 import com.sevban.location.model.LocationScreenUiState
 import com.sevban.location.model.PlaceListState
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -88,7 +82,7 @@ fun LocationScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(12.dp)
+            .padding(horizontal = 16.dp)
             .clip(RoundedCornerShape(12.dp))
     ) {
         GoogleMapWithLoading(
