@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.sevban.android.library)
-    alias(libs.plugins.sevban.android.library.compose)
+    alias(libs.plugins.celestia.android.library)
+    alias(libs.plugins.celestia.android.library.compose)
 }
 
 android {

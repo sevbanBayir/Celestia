@@ -10,7 +10,6 @@ java {
 }
 
 kotlin {
-    // This is required for Kotlin 1.8+ for the plugin to work correctly
     jvmToolchain(17)
 }
 
@@ -25,31 +24,31 @@ dependencies {
 gradlePlugin {
     plugins {
         register("androidApplicationCompose") {
-            id = "sevban.android.application.compose"
+            id = "celestia.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
         register("androidApplication") {
-            id = "sevban.android.application"
+            id = "celestia.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidLibrary") {
-            id = "sevban.android.library"
+            id = "celestia.android.library"
             implementationClass = "AndroidLibraryConventionPlugin" 
         }
         register("androidFeature") {
-            id = "sevban.android.feature"
+            id = "celestia.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("androidHilt") {
-            id = "sevban.android.hilt"
+            id = "celestia.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
         register("androidCompose") {
-            id = "sevban.android.library.compose"
+            id = "celestia.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
         register("jvmLibrary") {
-            id = "sevban.jvm.library"
+            id = "celestia.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
     }

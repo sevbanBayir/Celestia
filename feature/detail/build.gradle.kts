@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.sevban.android.library)
-    alias(libs.plugins.sevban.android.library.compose)
-    alias(libs.plugins.sevban.android.hilt)
-    alias(libs.plugins.sevban.android.feature)
+    alias(libs.plugins.celestia.android.library)
+    alias(libs.plugins.celestia.android.library.compose)
+    alias(libs.plugins.celestia.android.hilt)
+    alias(libs.plugins.celestia.android.feature)
 
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)

@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.sevban.android.library)
+    alias(libs.plugins.celestia.android.library)
 }
 
 android {
