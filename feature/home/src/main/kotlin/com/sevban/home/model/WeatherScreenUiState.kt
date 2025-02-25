@@ -7,6 +7,8 @@ import com.sevban.ui.model.WeatherUiModel
 
 data class WeatherScreenUiState(
     val shouldShowPermanentlyDeclinedDialog: Boolean = false,
+    val isPermissionDeclined: Boolean = false,
+    val isPermissionPermanentlyDeclined: Boolean = false,
     val lastFetchedTime: String = String.EMPTY,
     val latitude: Double = 0.0,
     val longitude: Double = 0.0

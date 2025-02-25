@@ -28,9 +28,11 @@ fun NavGraphBuilder.homeScreen(
         val viewModel: HomeViewModel = hiltViewModel()
         val homeUiState by viewModel.uiState.collectAsStateWithLifecycle()
         val weatherState by viewModel.weatherState.collectAsStateWithLifecycle()
+        val permissionTrigger by viewModel.permissionTrigger.collectAsStateWithLifecycle(null)
 
         HomeScreen(
             uiState = homeUiState,
+            permissionTrigger = permissionTrigger,
             whenErrorOccurred = whenErrorOccurred,
             onEvent = viewModel::onEvent,
             onLocationClick = onLocationClick,

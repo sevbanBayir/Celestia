@@ -23,6 +23,7 @@ import com.sevban.ui.components.PermissionRequester
 fun HomeScreen(
     weatherState: WeatherState,
     uiState: WeatherScreenUiState,
+    permissionTrigger: Unit?,
     onEvent: (HomeScreenEvent) -> Unit,
     onLocationClick: () -> Unit,
     onFutureDaysForecastClick: (Double, Double) -> Unit,
@@ -67,20 +68,21 @@ fun HomeScreen(
     if (uiState.shouldShowPermanentlyDeclinedDialog)
         PermissionAlertDialog(
             onConfirmed = {
-                onEvent(HomeScreenEvent.OnPermissionDialogDismissed)
+                onEvent(HomeScreenEvent.OnPermanentlyDeclinedDialogDismissed)
                 context.openAppSettings()
             },
             onDismissed = {
-                onEvent(HomeScreenEvent.OnPermissionDialogDismissed)
+                onEvent(HomeScreenEvent.OnPermanentlyDeclinedDialogDismissed)
             }
         )
 
-    PermissionRequester(
-        onPermissionFirstDeclined = {
-            onEvent(HomeScreenEvent.OnLocationPermissionDeclined)
-        },
-        onPermissionPermanentlyDeclined = {
-            onEvent(HomeScreenEvent.OnLocationPermissionPermanentlyDeclined)
-        }
-    )
+    if (permissionTrigger != null)
+        PermissionRequester(
+            onPermissionFirstDeclined = {
+                onEvent(HomeScreenEvent.OnLocationPermissionDeclined)
+            },
+            onPermissionPermanentlyDeclined = {
+                onEvent(HomeScreenEvent.OnLocationPermissionPermanentlyDeclined)
+            }
+        )
 }

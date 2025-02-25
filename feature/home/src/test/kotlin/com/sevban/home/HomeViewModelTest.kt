@@ -93,6 +93,7 @@ class HomeViewModelTest {
                 assertThat(firstItem).isEqualTo(WeatherState.Loading)
                 advanceTimeBy(60.seconds)
                 expectNoEvents()
+                cancelAndIgnoreRemainingEvents()
                 assertThat(locationObserver.currentLocationCallTimes).isEqualTo(retryCount.toInt())
             }
         }
