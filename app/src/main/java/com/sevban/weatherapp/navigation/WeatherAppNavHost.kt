@@ -2,12 +2,15 @@ package com.sevban.weatherapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
+import androidx.navigation.navOptions
 import com.sevban.detail.detailScreen
 import com.sevban.detail.navigateToDetail
 import com.sevban.home.navigation.Home
 import com.sevban.home.navigation.homeScreen
 import com.sevban.home.navigation.navigateToHome
+import com.sevban.location.navigation.Location
 import com.sevban.location.navigation.locationScreen
 import com.sevban.location.navigation.navigateToLocationScreen
 import com.sevban.weatherapp.AppState
@@ -36,7 +39,12 @@ fun WeatherAppNavHost(
 
         locationScreen(
             whenErrorOccurred = onShowSnackbar,
-            onClickWeather = navController::navigateToHome
+            onClickWeather = { lat, long ->
+                val navOptions = navOptions {
+                    launchSingleTop = true
+                }
+                navController.navigateToHome(lat, long, navOptions)
+            }
         )
     }
 }
