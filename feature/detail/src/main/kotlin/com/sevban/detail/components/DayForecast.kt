@@ -29,9 +29,10 @@ fun DayForecast(
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Column {
+        Column(
+            modifier = Modifier.weight(4f),
+        ) {
             Text(
                 dayOfWeek.lowercase().toTitleCase(),
                 style = MaterialTheme.typography.titleMedium
@@ -42,10 +43,12 @@ fun DayForecast(
         Spacer(Modifier.height(16.dp))
         Text(
             stringResource(R.string.temperature_celsius, temperature),
+            modifier = Modifier.weight(2f),
             style = MaterialTheme.typography.titleLarge
         )
         AsyncImage(
             model = iconUrl,
+            modifier = Modifier.weight(2f),
             contentDescription = description
         )
     }
