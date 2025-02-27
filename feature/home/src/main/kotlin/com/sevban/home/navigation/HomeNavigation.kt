@@ -5,6 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.sevban.home.HomeScreen
 import com.sevban.home.HomeViewModel
@@ -13,10 +14,9 @@ import kotlinx.serialization.Serializable
 fun NavController.navigateToHome(
     latitude: Double? = null,
     longitude: Double? = null,
+    navOptions: NavOptions? = null
 ) {
-    navigate(Home(latitude, longitude)) {
-        launchSingleTop = true
-    }
+    navigate(Home(latitude, longitude), navOptions = navOptions)
 }
 
 fun NavGraphBuilder.homeScreen(

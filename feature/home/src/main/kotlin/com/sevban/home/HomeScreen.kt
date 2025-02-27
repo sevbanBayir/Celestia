@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.sevban.common.extensions.openAppSettings
+import com.sevban.home.components.NoLocationPermissionDialog
 import com.sevban.home.components.WeatherContent
 import com.sevban.home.model.WeatherScreenUiState
 import com.sevban.home.model.WeatherState
@@ -19,6 +20,8 @@ import com.sevban.ui.components.LoadingScreen
 import com.sevban.ui.components.PermissionAlertDialog
 import com.sevban.ui.components.PermissionRequester
 
+// TODO: FIX VIDEO ASSET DELIVERY
+// TODO: FIX CACHING
 @Composable
 fun HomeScreen(
     weatherState: WeatherState,
@@ -42,6 +45,12 @@ fun HomeScreen(
             label = "WeatherAnimatedContent"
         ) {
             when (it) {
+                is WeatherState.NoLocationPermission -> NoLocationPermissionDialog(
+                    onGiveLocationPermissionClick = { onEvent(HomeScreenEvent.OnGiveLocationPermissionClick) },
+                    onChooseAnotherLocationClick = { onLocationClick() },
+                    onDismiss = { }
+                )
+
                 is WeatherState.Error -> ErrorScreen(
                     whenErrorOccurred = whenErrorOccurred,
                     failure = it.failure,
@@ -78,6 +87,9 @@ fun HomeScreen(
 
     if (permissionTrigger != null)
         PermissionRequester(
+            onPermissionGranted = {
+                onEvent(HomeScreenEvent.OnLocationPermissionGranted)
+            },
             onPermissionFirstDeclined = {
                 onEvent(HomeScreenEvent.OnLocationPermissionDeclined)
             },

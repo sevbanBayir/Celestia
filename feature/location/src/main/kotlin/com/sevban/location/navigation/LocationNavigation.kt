@@ -18,6 +18,9 @@ import kotlinx.serialization.Serializable
 fun NavController.navigateToLocationScreen() {
     navigate(Location) {
         launchSingleTop = true
+        popUpTo(0) {
+            inclusive = true
+        }
     }
 }
 
