@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sevban.home.components.forecastquadrant.GraphStyle
 import com.sevban.home.components.forecastquadrant.LineChart
 
@@ -33,6 +34,8 @@ fun LineChartContainer(
                 lineColor = MaterialTheme.colorScheme.primary,
                 jointColor = MaterialTheme.colorScheme.primary,
                 textColor = MaterialTheme.colorScheme.onSurface,
+                textStyle = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
+                gridLineColor = MaterialTheme.colorScheme.outline
             ),
             yAxisData = yAxisData,
             xAxisData = xAxisData
