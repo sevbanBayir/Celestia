@@ -20,6 +20,8 @@ import com.sevban.ui.components.LoadingScreen
 import com.sevban.ui.components.PermissionAlertDialog
 import com.sevban.ui.components.PermissionRequester
 
+// TODO: FIX VIDEO ASSET DELIVERY
+// TODO: FIX CACHING
 @Composable
 fun HomeScreen(
     weatherState: WeatherState,
