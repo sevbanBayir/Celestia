@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
         }
     }.map { savedLocation ->
         val (lat, long) = savedLocation ?: (locationObserver.getCurrentLocation()
-            .first().longitude to locationObserver.getCurrentLocation().first().latitude)
+            .first().latitude to locationObserver.getCurrentLocation().first().longitude)
         _uiState.update {
             it.copy(
                 latitude = lat,
