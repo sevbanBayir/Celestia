@@ -12,6 +12,7 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.sevban.model.Place
 import com.sevban.ui.components.LoadingScreen
+import com.sevban.ui.model.LocationArgument
 import com.sevban.ui.model.WeatherUiModel
 
 @Composable
@@ -23,7 +24,7 @@ fun GoogleMapWithLoading(
     markerLocation: Place?,
     weatherForSelectedLocation: WeatherUiModel?,
     isLoading: Boolean,
-    onMarkerClick: (lat: Double, long: Double) -> Unit,
+    onMarkerClick: (location: LocationArgument) -> Unit,
     modifier: Modifier = Modifier
 ) {
     GoogleMap(
@@ -39,8 +40,10 @@ fun GoogleMapWithLoading(
                 weatherForSelectedLocation = weatherForSelectedLocation,
                 onMarkerClick = {
                     onMarkerClick(
-                        markerLocation.latitude,
-                        markerLocation.longitude
+                        LocationArgument(
+                            markerLocation.latitude,
+                            markerLocation.longitude
+                        )
                     )
                 },
             )

@@ -32,17 +32,12 @@ fun WeatherAppNavHost(
         )
 
         detailScreen(
-            whenErrorOccured = onShowSnackbar,
+            whenErrorOccurred = onShowSnackbar,
         )
 
         locationScreen(
             whenErrorOccurred = onShowSnackbar,
-            onClickWeather = { lat, long ->
-                val navOptions = navOptions {
-                    launchSingleTop = true
-                }
-                navController.navigateToHome(lat, long, navOptions)
-            }
+            onClickWeather = navController::navigateToHome
         )
     }
 }

@@ -6,32 +6,37 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.sevban.ui.model.LocationArgument
+import com.sevban.ui.model.locationArgumentNavType
 import kotlinx.serialization.Serializable
+import kotlin.reflect.typeOf
 
 fun NavController.navigateToDetail(
-    latitude: Double,
-    longitude: Double,
+    location: LocationArgument
 ) {
-    navigate(Detail(latitude, longitude)) {
-        launchSingleTop = true
-    }
+    navigate(Detail(location))
 }
 
 fun NavGraphBuilder.detailScreen(
-    whenErrorOccured: suspend (Throwable, String?) -> Unit,
+    whenErrorOccurred: suspend (Throwable, String?) -> Unit,
 ) {
-    composable<Detail> {
+    composable<Detail>(
+        typeMap = Detail.typeMap
+    ) {
         val viewModel: DetailViewModel = hiltViewModel()
         val weatherState by viewModel.forecastState.collectAsStateWithLifecycle()
 
         DetailScreen(
             forecastState = weatherState,
             onEvent = viewModel::onEvent,
-            whenErrorOccurred = whenErrorOccured,
+            whenErrorOccurred = whenErrorOccurred,
         )
     }
 }
 
 @Serializable
-data class Detail(val latitude: Double, val longitude: Double)
-
+data class Detail(val location: LocationArgument) {
+    companion object {
+        val typeMap = mapOf(typeOf<LocationArgument>() to locationArgumentNavType)
+    }
+}

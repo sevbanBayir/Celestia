@@ -19,6 +19,7 @@ import com.sevban.ui.components.ErrorScreen
 import com.sevban.ui.components.LoadingScreen
 import com.sevban.ui.components.PermissionAlertDialog
 import com.sevban.ui.components.PermissionRequester
+import com.sevban.ui.model.LocationArgument
 
 // TODO: FIX VIDEO ASSET DELIVERY
 // TODO: FIX CACHING
@@ -28,8 +29,8 @@ fun HomeScreen(
     uiState: WeatherScreenUiState,
     permissionTrigger: Unit?,
     onEvent: (HomeScreenEvent) -> Unit,
-    onLocationClick: () -> Unit,
-    onFutureDaysForecastClick: (Double, Double) -> Unit,
+    onLocationClick: (LocationArgument) -> Unit,
+    onFutureDaysForecastClick: (LocationArgument) -> Unit,
     whenErrorOccurred: suspend (Throwable, String?) -> Unit
 ) {
     val context = LocalContext.current
@@ -47,7 +48,7 @@ fun HomeScreen(
             when (it) {
                 is WeatherState.NoLocationPermission -> NoLocationPermissionDialog(
                     onGiveLocationPermissionClick = { onEvent(HomeScreenEvent.OnGiveLocationPermissionClick) },
-                    onChooseAnotherLocationClick = { onLocationClick() },
+                    onChooseAnotherLocationClick = { onLocationClick(LocationArgument(uiState.latitude, uiState.longitude)) },
                     onDismiss = { }
                 )
 
@@ -61,14 +62,16 @@ fun HomeScreen(
                 is WeatherState.Success -> WeatherContent(
                     weather = it.weather,
                     forecast = it.forecast,
-                    onLocationClick = onLocationClick,
+                    onLocationClick = { onLocationClick(LocationArgument(uiState.latitude, uiState.longitude)) },
                     lastFetchedTime = uiState.lastFetchedTime,
                     onFutureDaysForecastClick = {
                         onFutureDaysForecastClick(
-                            uiState.latitude,
-                            uiState.longitude
+                            LocationArgument(
+                                uiState.latitude,
+                                uiState.longitude
+                            )
                         )
-                    }
+                    },
                 )
             }
         }

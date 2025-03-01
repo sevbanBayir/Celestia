@@ -22,7 +22,7 @@ class Geocoder @Inject constructor(
             val addresses = geocoder.getFromLocation(latitude, longitude, 1)
             addresses?.firstOrNull()?.let { address ->
                 Place(
-                    cityName = address.locality,
+                    cityName = address.locality ?: address.subLocality ?: address.subAdminArea ?: address.adminArea,
                     country = address.countryName,
                     latitude = address.latitude,
                     longitude = address.longitude
@@ -52,9 +52,8 @@ class Geocoder @Inject constructor(
             // Todo: If "gj" text comes from this api, an exception thrown ???
             val addresses = geocoder.getFromLocationName(placeText.fullText, 1)
             addresses?.firstOrNull()?.let { address ->
-                if (address.locality == null) return@withContext null
                 Place(
-                    cityName = address.locality,
+                    cityName = address.locality ?: address.subLocality ?: address.subAdminArea ?: address.adminArea,
                     country = address.countryName,
                     latitude = address.latitude,
                     longitude = address.longitude

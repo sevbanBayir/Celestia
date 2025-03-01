@@ -1,13 +1,16 @@
 package com.sevban.location
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.sevban.common.extensions.EMPTY
 import com.sevban.common.location.Geocoder
 import com.sevban.domain.usecase.GetWeatherUseCase
 import com.sevban.location.helper.PlaceAutocompleteService
 import com.sevban.location.model.LocationScreenUiState
 import com.sevban.location.model.PlaceListState
+import com.sevban.location.navigation.Location
 import com.sevban.ui.model.toWeatherUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,6 +24,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -32,7 +36,8 @@ import javax.inject.Inject
 class LocationScreenViewModel @Inject constructor(
     private val getWeatherUseCase: GetWeatherUseCase,
     private val placeAutocompleteService: PlaceAutocompleteService,
-    private val geocoder: Geocoder
+    private val geocoder: Geocoder,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _error = Channel<Throwable>()
@@ -41,8 +46,22 @@ class LocationScreenViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LocationScreenUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val initialLocation = savedStateHandle.toRoute<Location>(typeMap = Location.typeMap).location
+
+    init {
+        viewModelScope.launch {
+            println("initial location: $initialLocation")
+
+            geocoder.getPlace(initialLocation.latitude, initialLocation.longitude)?.let {
+                println("initial location: $it")
+                onEvent(LocationScreenEvent.OnLocationSelected(it))
+            }
+        }
+    }
+
     private val _searchQuery = MutableStateFlow(String.EMPTY)
     val searchQuery = _searchQuery.asStateFlow()
+
 
     val placeListState: StateFlow<PlaceListState> = _searchQuery
         .onEach { _uiState.update { it.copy(isPlaceListLoading = true) } }
@@ -80,6 +99,8 @@ class LocationScreenViewModel @Inject constructor(
             }
 
             is LocationScreenEvent.OnLocationSelected -> {
+                println("place selected: ${event.prediction}")
+
                 _uiState.update { it.copy(selectedPlace = event.prediction) }
                 _searchQuery.update { String.EMPTY }
                 viewModelScope.launch {

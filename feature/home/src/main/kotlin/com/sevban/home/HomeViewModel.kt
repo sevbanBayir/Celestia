@@ -3,6 +3,7 @@ package com.sevban.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.sevban.common.helper.timeFormatter
 import com.sevban.common.location.LocationObserver
 import com.sevban.common.location.MissingLocationPermissionException
@@ -12,6 +13,9 @@ import com.sevban.domain.usecase.GetWeatherUseCase
 import com.sevban.home.mapper.toForecastUiModel
 import com.sevban.home.model.WeatherScreenUiState
 import com.sevban.home.model.WeatherState
+import com.sevban.home.navigation.Home
+import com.sevban.ui.model.LocationArgument
+import com.sevban.ui.model.toLocationArgument
 import com.sevban.ui.model.toWeatherUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,7 +27,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -38,7 +41,7 @@ import kotlin.time.Duration.Companion.seconds
 class HomeViewModel @Inject constructor(
     private val getWeatherUseCase: GetWeatherUseCase,
     private val getForecastUseCase: GetForecastUseCase,
-    locationObserver: LocationObserver,
+    private val locationObserver: LocationObserver,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -50,70 +53,59 @@ class HomeViewModel @Inject constructor(
     private val _permissionTrigger = Channel<Unit?>()
     val permissionTrigger = _permissionTrigger.receiveAsFlow()
 
-    private val location = combine(
-        savedStateHandle.getStateFlow<Double?>(LATITUDE_ARG, null),
-        savedStateHandle.getStateFlow<Double?>(LONGITUDE_ARG, null)
-    ) { lat, long ->
-        if (lat != null && long != null) {
-            lat to long
-        } else {
-            null
-        }
-    }.map { savedLocation ->
-        val (lat, long) = savedLocation ?: locationObserver.getCurrentLocation().first().let {
-            it.latitude to it.longitude
-        }
-        lat to long
-    }.onEach { (lat, long) ->
-        _uiState.update {
-            it.copy(
-                latitude = lat,
-                longitude = long
-            )
+    private val savedLocation = savedStateHandle.toRoute<Home>(typeMap = Home.typeMap).location
+
+    private suspend fun getLocation(): LocationArgument {
+        val location = savedLocation ?: locationObserver.getCurrentLocation().first().toLocationArgument()
+        return location.also {
+            _uiState.update {
+                it.copy(
+                    latitude = location.latitude,
+                    longitude = location.longitude
+                )
+            }
         }
     }
 
     val weatherState = retryTrigger.receiveAsFlow()
         .onStart { emit(Unit) }
         .flatMapLatest {
-            location.flatMapLatest<Pair<Double, Double>, WeatherState> { (latitude, longitude) ->
-                combine(
-                    getWeatherUseCase.execute(
-                        lat = latitude.toString(),
-                        long = longitude.toString()
-                    ),
-                    getForecastUseCase.execute(
-                        lat = latitude.toString(),
-                        long = longitude.toString()
-                    )
-                ) { weather, forecast ->
-                    _uiState.update {
-                        it.copy(
-                            lastFetchedTime = timeFormatter.format(
-                                LocalDateTime.now()
-                            )
-                        )
-                    }
+            val location = getLocation()
+            combine(
+                getWeatherUseCase.execute(
+                    lat = location.latitude.toString(),
+                    long = location.longitude.toString()
+                ),
+                getForecastUseCase.execute(
+                    lat = location.latitude.toString(),
+                    long = location.longitude.toString()
+                ),
+                transform = { weather, forecast ->
                     WeatherState.Success(
                         weather = weather.toWeatherUiModel(),
                         forecast = forecast.toForecastUiModel()
                     )
                 }
-            }.catch {
-                when (it) {
-                    is MissingLocationPermissionException -> {
-                        emit(WeatherState.NoLocationPermission)
-                    }
-
-                    is Failure -> {
-                        emit(WeatherState.Error(it))
-                    }
-
-                    else -> {
-                        emit(WeatherState.Error(Failure(throwable = it)))
-                    }
+            ).onEach<WeatherState> {
+                _uiState.update {
+                    it.copy(lastFetchedTime = timeFormatter.format(LocalDateTime.now()))
                 }
-            }.onStart { emit(WeatherState.Loading) }
+            }
+                .catch {
+                    when (it) {
+                        is MissingLocationPermissionException -> {
+                            emit(WeatherState.NoLocationPermission)
+                        }
+
+                        is Failure -> {
+                            emit(WeatherState.Error(it))
+                        }
+
+                        else -> {
+                            emit(WeatherState.Error(Failure(throwable = it)))
+                        }
+                    }
+                }.onStart { emit(WeatherState.Loading) }
         }
         .stateIn(
             scope = viewModelScope,
@@ -169,11 +161,5 @@ class HomeViewModel @Inject constructor(
                 retryTrigger.trySend(Unit)
             }
         }
-    }
-
-    companion object {
-        val MISSING_PERMISSION_RETRY_DURATION = 3.seconds
-        const val LATITUDE_ARG = "latitude"
-        const val LONGITUDE_ARG = "longitude"
     }
 }

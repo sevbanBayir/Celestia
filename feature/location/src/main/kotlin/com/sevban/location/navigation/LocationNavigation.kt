@@ -12,23 +12,21 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.sevban.location.LocationScreen
 import com.sevban.location.LocationScreenViewModel
+import com.sevban.ui.model.LocationArgument
+import com.sevban.ui.model.locationArgumentNavType
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.serialization.Serializable
+import kotlin.reflect.typeOf
 
-fun NavController.navigateToLocationScreen() {
-    navigate(Location) {
-        launchSingleTop = true
-        popUpTo(0) {
-            inclusive = true
-        }
-    }
+fun NavController.navigateToLocationScreen(location: LocationArgument) {
+    navigate(Location(location))
 }
 
 fun NavGraphBuilder.locationScreen(
-    onClickWeather: (lat: Double, long: Double) -> Unit,
+    onClickWeather: (location: LocationArgument) -> Unit,
     whenErrorOccurred: suspend (Throwable, String?) -> Unit,
 ) {
-    composable<Location> {
+    composable<Location>(typeMap = Location.typeMap) {
         val viewModel: LocationScreenViewModel = hiltViewModel()
         val locationUiState by viewModel.uiState.collectAsStateWithLifecycle()
         val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
@@ -56,4 +54,8 @@ fun NavGraphBuilder.locationScreen(
 }
 
 @Serializable
-data object Location
+data class Location(val location: LocationArgument) {
+    companion object {
+        val typeMap = mapOf(typeOf<LocationArgument>() to locationArgumentNavType)
+    }
+}
