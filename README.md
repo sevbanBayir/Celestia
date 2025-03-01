@@ -41,23 +41,24 @@ A modern Android weather application built with Clean Architecture principles an
 
 The app follows Clean Architecture principles with a modular structure: 
 
+```
 app/
 ├── core/
-│ ├── network/ # Network operations and API interfaces
-│ ├── data/ # Data layer, repositories
-│ ├── model/ # Domain models
-│ ├── domain/ # Use cases, business logic
-│ ├── ui/ # Common UI components
-│ ├── designsystem/ # Design system, themes
-│ ├── common/ # Shared utilities
-│ ├── testing/ # Test utilities
-│ └── androidtest/ # Android test utilities
+│   ├── network/            # Network operations and API interfaces
+│   ├── data/               # Data layer, repositories
+│   ├── model/              # Domain models
+│   ├── domain/             # Use cases, business logic
+│   ├── ui/                 # Common UI components
+│   ├── designsystem/       # Design system, themes
+│   ├── common/             # Shared utilities
+│   ├── testing/            # Test utilities
+│   └── androidtest/        # Android test utilities
 │
 └── feature/
-├── home/ # Home screen with current weather
-├── detail/ # Detailed weather information
-└── location/ # Location selection
-
+    ├── home/               # Home screen with current weather
+    ├── detail/             # Detailed weather information
+    └── location/           # Location selection
+```
 
 ### Module Dependencies
 
