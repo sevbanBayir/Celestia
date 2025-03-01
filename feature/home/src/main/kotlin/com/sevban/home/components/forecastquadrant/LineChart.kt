@@ -98,7 +98,7 @@ fun LineChart(
                     lineTo(xCursor, -xMaxTextHeight + yCursor)
                     drawLine(
                         graphStyle.gridLineColor,
-                        start = Offset(xCursor,-xMaxTextHeight.toFloat()),
+                        start = Offset(xCursor, -xMaxTextHeight.toFloat()),
                         end = Offset(xCursor, graphHeight - xMaxTextHeight)
                     )
                     moveTo(xCursor, yCursor - xMaxTextHeight)

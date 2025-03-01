@@ -39,7 +39,9 @@ class DetailViewModel @Inject constructor(
                 savedStateHandle.getStateFlow<Double?>(LATITUDE_ARG, null),
                 savedStateHandle.getStateFlow<Double?>(LONGITUDE_ARG, null)
             ) { lat, long ->
-                if (lat == null || long == null) { return@combine null }
+                if (lat == null || long == null) {
+                    return@combine null
+                }
                 lat to long
             }.filterNotNull().flatMapLatest { (latitude, longitude) ->
                 getForecastUseCase.execute(

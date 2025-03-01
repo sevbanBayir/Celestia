@@ -21,5 +21,6 @@ object LocationModule {
 
     @Provides
     @Singleton
-    fun provideLocationObserver(@ApplicationContext context: Context): LocationObserver = AndroidLocationObserver(context)
+    fun provideLocationObserver(@ApplicationContext context: Context): LocationObserver =
+        AndroidLocationObserver(context)
 }

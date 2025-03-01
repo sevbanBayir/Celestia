@@ -43,10 +43,10 @@ fun LocationAndFetchTimeBox(
             )
         }
 
-/*        Text(
-            text = stringResource(id = R.string.last_fetched_at, lastFetchedTime),
-            modifier = Modifier.align(Alignment.CenterEnd),
-            style = MaterialTheme.typography.labelSmall
-        )*/
+        /*        Text(
+                    text = stringResource(id = R.string.last_fetched_at, lastFetchedTime),
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                    style = MaterialTheme.typography.labelSmall
+                )*/
     }
 }

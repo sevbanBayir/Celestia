@@ -33,7 +33,7 @@ gradlePlugin {
         }
         register("androidLibrary") {
             id = "celestia.android.library"
-            implementationClass = "AndroidLibraryConventionPlugin" 
+            implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidFeature") {
             id = "celestia.android.feature"
