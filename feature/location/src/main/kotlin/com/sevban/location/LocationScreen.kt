@@ -29,6 +29,7 @@ import com.sevban.location.components.GoogleMapWithLoading
 import com.sevban.location.components.SearchbarWithList
 import com.sevban.location.model.LocationScreenUiState
 import com.sevban.location.model.PlaceListState
+import com.sevban.ui.model.LocationArgument
 import kotlinx.coroutines.launch
 
 @Composable
@@ -37,7 +38,7 @@ fun LocationScreen(
     searchQuery: String,
     placeListState: PlaceListState,
     onEvent: (LocationScreenEvent) -> Unit,
-    onClickWeather: (lat: Double, long: Double) -> Unit,
+    onClickWeather: (location: LocationArgument) -> Unit,
 ) {
     val context = LocalContext.current
     val isSystemInDarkTheme = isSystemInDarkTheme()

@@ -3,6 +3,7 @@ package com.sevban.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.sevban.common.model.Failure
 import com.sevban.detail.mapper.toForecastUiModel
 import com.sevban.domain.usecase.GetForecastUseCase
@@ -12,8 +13,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -32,28 +31,21 @@ class DetailViewModel @Inject constructor(
     private val _retryTrigger = Channel<Unit>()
     val retryTrigger = _retryTrigger.receiveAsFlow()
 
+    private val location = savedStateHandle.toRoute<Detail>(typeMap = Detail.typeMap).location
+
     val forecastState = retryTrigger
         .onStart { emit(Unit) }
         .flatMapLatest {
-            combine(
-                savedStateHandle.getStateFlow<Double?>(LATITUDE_ARG, null),
-                savedStateHandle.getStateFlow<Double?>(LONGITUDE_ARG, null)
-            ) { lat, long ->
-                if (lat == null || long == null) {
-                    return@combine null
-                }
-                lat to long
-            }.filterNotNull().flatMapLatest { (latitude, longitude) ->
-                getForecastUseCase.execute(
-                    lat = latitude.toString(),
-                    long = longitude.toString()
-                )
-            }.map<Forecast, ForecastState> {
-                ForecastState.Success(it.toForecastUiModel())
-            }.catch {
-                val failure = it as? Failure ?: Failure(throwable = it)
-                emit(ForecastState.Error(failure))
-            }.onStart { emit(ForecastState.Loading) }
+            getForecastUseCase.execute(
+                lat = location.latitude.toString(),
+                long = location.longitude.toString()
+            )
+                .map<Forecast, ForecastState> {
+                    ForecastState.Success(it.toForecastUiModel())
+                }.catch {
+                    val failure = it as? Failure ?: Failure(throwable = it)
+                    emit(ForecastState.Error(failure))
+                }.onStart { emit(ForecastState.Loading) }
         }
         .stateIn(
             scope = viewModelScope,
@@ -69,10 +61,5 @@ class DetailViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    companion object {
-        const val LATITUDE_ARG = "latitude"
-        const val LONGITUDE_ARG = "longitude"
     }
 }

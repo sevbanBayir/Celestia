@@ -9,22 +9,24 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.sevban.home.HomeScreen
 import com.sevban.home.HomeViewModel
+import com.sevban.ui.model.LocationArgument
+import com.sevban.ui.model.locationArgumentNavType
 import kotlinx.serialization.Serializable
+import kotlin.reflect.typeOf
 
 fun NavController.navigateToHome(
-    latitude: Double? = null,
-    longitude: Double? = null,
+    location: LocationArgument?,
     navOptions: NavOptions? = null
 ) {
-    navigate(Home(latitude, longitude), navOptions = navOptions)
+    navigate(Home(location), navOptions = navOptions)
 }
 
 fun NavGraphBuilder.homeScreen(
     whenErrorOccurred: suspend (Throwable, String?) -> Unit,
-    onLocationClick: () -> Unit,
-    onFutureDaysForecastClick: (Double, Double) -> Unit
+    onLocationClick: (LocationArgument) -> Unit,
+    onFutureDaysForecastClick: (LocationArgument) -> Unit
 ) {
-    composable<Home> {
+    composable<Home>(typeMap = Home.typeMap) {
         val viewModel: HomeViewModel = hiltViewModel()
         val homeUiState by viewModel.uiState.collectAsStateWithLifecycle()
         val weatherState by viewModel.weatherState.collectAsStateWithLifecycle()
@@ -43,5 +45,9 @@ fun NavGraphBuilder.homeScreen(
 }
 
 @Serializable
-data class Home(val latitude: Double? = null, val longitude: Double? = null)
+data class Home(val location: LocationArgument? = null) {
+    companion object {
+        val typeMap = mapOf(typeOf<LocationArgument?>() to locationArgumentNavType)
+    }
+}
 
