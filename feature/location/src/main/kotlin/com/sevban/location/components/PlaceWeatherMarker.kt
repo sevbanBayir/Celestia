@@ -2,6 +2,7 @@ package com.sevban.location.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -25,6 +28,7 @@ import coil.request.ImageRequest
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.MarkerState
+import com.sevban.designsystem.theme.ComposeScaffoldProjectTheme
 import com.sevban.model.Place
 import com.sevban.ui.model.WeatherUiModel
 
@@ -47,7 +51,7 @@ fun PlaceWeatherMarker(
     val asyncImagePainter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(weatherForSelectedLocation.iconUrl)
-            .size(100.dp.value.toInt())
+            .size(120.dp.value.toInt())
             .allowHardware(false)
             .build(),
     )
@@ -66,9 +70,11 @@ fun PlaceWeatherMarker(
     ) {
         Column(
             modifier = modifier
-                .size(100.dp)
+                .size(120.dp)
                 .clip(MaterialTheme.shapes.medium)
                 .background(MaterialTheme.colorScheme.background),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Card(
                 Modifier
@@ -77,20 +83,21 @@ fun PlaceWeatherMarker(
             ) {
                 Text(
                     text = markerLocation.cityName,
-                    fontSize = 11.sp,
-                    modifier = Modifier.padding(4.dp)
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(4.dp).fillMaxWidth()
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     Image(
                         painter = asyncImagePainter,
-                        modifier = Modifier.size(50.dp),
+                        modifier = Modifier.size(70.dp),
                         contentDescription = null
                     )
                     Text(
-                        text = "${weatherForSelectedLocation.temp} ֯",
+                        text = stringResource(com.sevban.ui.R.string.temperature_celsius, weatherForSelectedLocation.temp),
                         style = MaterialTheme.typography.headlineLarge.copy(
                             fontSize = 20.sp,
                             fontWeight = FontWeight.ExtraBold
@@ -100,5 +107,38 @@ fun PlaceWeatherMarker(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PlaceWeatherMarkerPreview() {
+    ComposeScaffoldProjectTheme { 
+        PlaceWeatherMarker(
+            markerLocation = Place(
+                cityName = "Istanbul",
+                country = "Turkey",
+                latitude = 41.0,
+                longitude = 28.9
+            ),
+            onMarkerClick = {},
+            weatherForSelectedLocation = WeatherUiModel(
+                id = 9945,
+                description = "persius",
+                iconUrl = "https://search.yahoo.com/search?p=nullam",
+                cityName = "Moslow",
+                feelsLike = "prodesset",
+                grndLevel = "gravida",
+                humidity = "inani",
+                pressure = "dolore",
+                seaLevel = "dolorum",
+                temp = "delectus",
+                tempMax = "amet",
+                tempMin = "reprehendunt",
+                visibility = "constituto",
+                windSpeed = "mazim",
+                video = null
+            )
+        )
     }
 }
