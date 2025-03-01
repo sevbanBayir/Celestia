@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -59,15 +60,17 @@ class HomeViewModel @Inject constructor(
             null
         }
     }.map { savedLocation ->
-        val (lat, long) = savedLocation ?: (locationObserver.getCurrentLocation()
-            .first().latitude to locationObserver.getCurrentLocation().first().longitude)
+        val (lat, long) = savedLocation ?: locationObserver.getCurrentLocation().first().let {
+            it.latitude to it.longitude
+        }
+        lat to long
+    }.onEach { (lat, long) ->
         _uiState.update {
             it.copy(
                 latitude = lat,
                 longitude = long
             )
         }
-        lat to long
     }
 
     val weatherState = retryTrigger.receiveAsFlow()
