@@ -20,12 +20,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(MainCoroutineExtension::class)
@@ -55,7 +53,7 @@ class HomeViewModelTest {
         assertThat(viewModel.weatherState.value).isEqualTo(WeatherState.Loading)
     }
 
-   @Test
+    @Test
     fun `given location permission granted when weather is fetched then weatherState should be Success`() =
         runTest {
             coEvery { getWeatherUseCase.execute(any(), any()) } returns flow {
