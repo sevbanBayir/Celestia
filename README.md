@@ -4,38 +4,21 @@ A modern Android weather application built with Clean Architecture principles an
 
 ## 📱 Screenshots
 
-<table>
-  <tr>
-    <td><img src="screenshots/home_screen.png" alt="Home Screen" width="250"/></td>
-    <td><img src="screenshots/home_screen_dark.png" alt="Home Screen Dark Mode" width="250"/></td>
-    <td><img src="screenshots/detail_screen.png" alt="Detail Screen" width="250"/></td>
-  </tr>
-  <tr>
-    <td align="center">Home Screen</td>
-    <td align="center">Home Screen (Dark)</td>
-    <td align="center">Detail Screen</td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/place_in_maps.png" alt="Place in Maps" width="250"/></td>
-    <td><img src="screenshots/maps_screen_dark.png" alt="Maps Screen Dark Mode" width="250"/></td>
-    <td><img src="screenshots/permission_handling.png" alt="Permission Handling" width="250"/></td>
-  </tr>
-  <tr>
-    <td align="center">Location Selection</td>
-    <td align="center">Maps Screen (Dark)</td>
-    <td align="center">Permission Handling</td>
-  </tr>
-  <tr>
-    <td><img src="screenshots/permission_handling2.png" alt="Permission Handling 2" width="250"/></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td align="center">Permission Dialog</td>
-    <td></td>
-    <td></td>
-  </tr>
-</table>
+<div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+  <img src="screenshots/home_screen.png" alt="Home Screen" width="250"/>
+  <img src="screenshots/home_screen_dark.png" alt="Home Screen Dark Mode" width="250"/>
+  <img src="screenshots/detail_screen.png" alt="Detail Screen" width="250"/>
+</div>
+
+<div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+  <img src="screenshots/place_in_maps.png" alt="Location Selection" width="250"/>
+  <img src="screenshots/maps_screen_dark.png" alt="Maps Screen Dark Mode" width="250"/>
+  <img src="screenshots/permission_handling.png" alt="Permission Handling" width="250"/>
+</div>
+
+<div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+  <img src="screenshots/permission_handling2.png" alt="Permission Dialog" width="250"/>
+</div>
 
 ## 🏗️ Architecture & Modularization
 
