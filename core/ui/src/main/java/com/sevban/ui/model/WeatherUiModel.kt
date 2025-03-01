@@ -3,6 +3,8 @@ package com.sevban.ui.model
 import com.sevban.common.constants.Constants
 import com.sevban.common.extensions.EMPTY
 import com.sevban.common.extensions.toTitleCase
+import com.sevban.common.helper.getVideoName
+import com.sevban.common.helper.toWeatherType
 import com.sevban.model.Weather
 
 data class WeatherUiModel(
@@ -20,6 +22,7 @@ data class WeatherUiModel(
     val tempMin: String,
     val visibility: String,
     val windSpeed: String,
+    val video: String?
 )
 
 fun Weather.toWeatherUiModel() = WeatherUiModel(
@@ -37,6 +40,7 @@ fun Weather.toWeatherUiModel() = WeatherUiModel(
     tempMin = tempMin?.toString() ?: String.EMPTY,
     visibility = visibility?.toString() ?: String.EMPTY,
     windSpeed = windSpeed?.toString() ?: String.EMPTY,
+    video = description?.toWeatherType()?.getVideoName()
 )
 
 fun createWeatherIconURL(icon: String?): String {

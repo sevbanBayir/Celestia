@@ -15,8 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sevban.home.components.videobg.VideoPlayer
-import com.sevban.home.components.videobg.getVideoName
-import com.sevban.home.components.videobg.toWeatherType
 import com.sevban.home.mapper.ForecastUiModel
 import com.sevban.ui.model.WeatherUiModel
 
@@ -30,15 +28,16 @@ fun CurrentWeatherCard(
 ) {
     Card(modifier = modifier.fillMaxWidth()) {
         Box(modifier = Modifier.fillMaxSize()) {
-            weather.description.toWeatherType().getVideoName()?.let {
+            /* TODO: Will be activated when video assets are added
+            if (weather.video != null) {
                 VideoPlayer(
-                    videoName = it,
+                    videoName = weather.video!!,
                     modifier = Modifier
                         .heightIn(min = 570.dp)
                         .fillMaxHeight()
                 )
             }
-
+             */
             Column(
                 modifier = Modifier
                     .padding(12.dp)
