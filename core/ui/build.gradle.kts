@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.celestia.android.library)
     alias(libs.plugins.celestia.android.library.compose)
     alias(libs.plugins.celestia.android.hilt)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -12,7 +14,10 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.model)
 
-    implementation(libs.androidx.activity.compose)
+    // Serialization
+    implementation(libs.kotlin.serialization)
+
+    implementation(libs.androidx.navigation.compose)
 
     // Coil
     implementation(libs.coil.compose)
