@@ -20,13 +20,16 @@ import com.sevban.ui.model.toWeatherUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -55,9 +58,9 @@ class HomeViewModel @Inject constructor(
 
     private val savedLocation = savedStateHandle.toRoute<Home>(typeMap = Home.typeMap).location
 
-    private suspend fun getLocation(): LocationArgument {
+    private fun getLocation() : Flow<LocationArgument> = flow {
         val location = savedLocation ?: locationObserver.getCurrentLocation().first().toLocationArgument()
-        return location.also {
+        emit(location).also {
             _uiState.update {
                 it.copy(
                     latitude = location.latitude,
@@ -70,42 +73,43 @@ class HomeViewModel @Inject constructor(
     val weatherState = retryTrigger.receiveAsFlow()
         .onStart { emit(Unit) }
         .flatMapLatest {
-            val location = getLocation()
-            combine(
-                getWeatherUseCase.execute(
-                    lat = location.latitude.toString(),
-                    long = location.longitude.toString()
-                ),
-                getForecastUseCase.execute(
-                    lat = location.latitude.toString(),
-                    long = location.longitude.toString()
-                ),
-                transform = { weather, forecast ->
-                    WeatherState.Success(
-                        weather = weather.toWeatherUiModel(),
-                        forecast = forecast.toForecastUiModel()
-                    )
-                }
-            ).onEach<WeatherState> {
+            getLocation().flatMapLatest { location ->
+                combine(
+                    getWeatherUseCase.execute(
+                        lat = location.latitude.toString(),
+                        long = location.longitude.toString()
+                    ),
+                    getForecastUseCase.execute(
+                        lat = location.latitude.toString(),
+                        long = location.longitude.toString()
+                    ),
+                    transform = { weather, forecast ->
+                        WeatherState.Success(
+                            weather = weather.toWeatherUiModel(),
+                            forecast = forecast.toForecastUiModel()
+                        )
+                    }
+                )
+            }
+            .onEach<WeatherState> {
                 _uiState.update {
                     it.copy(lastFetchedTime = timeFormatter.format(LocalDateTime.now()))
                 }
-            }
-                .catch {
-                    when (it) {
-                        is MissingLocationPermissionException -> {
-                            emit(WeatherState.NoLocationPermission)
-                        }
-
-                        is Failure -> {
-                            emit(WeatherState.Error(it))
-                        }
-
-                        else -> {
-                            emit(WeatherState.Error(Failure(throwable = it)))
-                        }
+            }.catch {
+                when (it) {
+                    is MissingLocationPermissionException -> {
+                        emit(WeatherState.NoLocationPermission)
                     }
-                }.onStart { emit(WeatherState.Loading) }
+
+                    is Failure -> {
+                        emit(WeatherState.Error(it))
+                    }
+
+                    else -> {
+                        emit(WeatherState.Error(Failure(throwable = it)))
+                    }
+                }
+            }.onStart { emit(WeatherState.Loading) }
         }
         .stateIn(
             scope = viewModelScope,
