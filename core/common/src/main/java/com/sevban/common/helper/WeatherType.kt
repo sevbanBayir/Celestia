@@ -1,6 +1,4 @@
-package com.sevban.home.components.videobg
-
-import com.sevban.common.helper.isDaylight
+package com.sevban.common.helper
 
 enum class WeatherType {
     SUNNY,
