@@ -23,7 +23,7 @@ fun NavController.navigateToHome(
 
 fun NavGraphBuilder.homeScreen(
     whenErrorOccurred: suspend (Throwable, String?) -> Unit,
-    onLocationClick: (LocationArgument) -> Unit,
+    onLocationClick: (LocationArgument?) -> Unit,
     onFutureDaysForecastClick: (LocationArgument) -> Unit
 ) {
     composable<Home>(typeMap = Home.typeMap) {

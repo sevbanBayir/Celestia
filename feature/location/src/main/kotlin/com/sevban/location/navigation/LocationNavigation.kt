@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.serialization.Serializable
 import kotlin.reflect.typeOf
 
-fun NavController.navigateToLocationScreen(location: LocationArgument) {
+fun NavController.navigateToLocationScreen(location: LocationArgument?) {
     navigate(Location(location))
 }
 
@@ -54,8 +54,8 @@ fun NavGraphBuilder.locationScreen(
 }
 
 @Serializable
-data class Location(val location: LocationArgument) {
+data class Location(val location: LocationArgument? = null) {
     companion object {
-        val typeMap = mapOf(typeOf<LocationArgument>() to locationArgumentNavType)
+        val typeMap = mapOf(typeOf<LocationArgument?>() to locationArgumentNavType)
     }
 }

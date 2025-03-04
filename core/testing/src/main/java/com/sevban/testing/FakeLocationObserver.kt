@@ -17,7 +17,7 @@ class FakeLocationObserver : LocationObserver {
         if (shouldThrowPermissionException) {
             close(MissingLocationPermissionException())
         } else {
-            trySend(DomainLocation(0.0, 0.0))
+            trySend(DomainLocation(4.0, 3.0))
         }
         awaitClose()
     }

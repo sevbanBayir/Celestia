@@ -3,6 +3,7 @@ package com.sevban.home.model
 import com.sevban.common.extensions.EMPTY
 import com.sevban.common.model.Failure
 import com.sevban.home.mapper.ForecastUiModel
+import com.sevban.ui.model.LocationArgument
 import com.sevban.ui.model.WeatherUiModel
 
 data class WeatherScreenUiState(
@@ -10,8 +11,7 @@ data class WeatherScreenUiState(
     val isPermissionDeclined: Boolean = false,
     val isPermissionPermanentlyDeclined: Boolean = false,
     val lastFetchedTime: String = String.EMPTY,
-    val latitude: Double = 0.0,
-    val longitude: Double = 0.0
+    val location : LocationArgument? = null
 )
 
 sealed interface WeatherState {

@@ -1,22 +1,29 @@
 package com.sevban.home
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.toRoute
 import app.cash.turbine.test
 import app.cash.turbine.turbineScope
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isNotNull
+import assertk.assertions.isNull
 import com.sevban.domain.usecase.GetForecastUseCase
 import com.sevban.domain.usecase.GetWeatherUseCase
 import com.sevban.home.mapper.toForecastUiModel
 import com.sevban.home.model.WeatherState
+import com.sevban.home.navigation.Home
 import com.sevban.testing.FakeLocationObserver
 import com.sevban.testing.extension.MainCoroutineExtension
 import com.sevban.testing.testdata.dummyForecast
 import com.sevban.testing.testdata.dummyWeather
+import com.sevban.ui.model.LocationArgument
+import com.sevban.ui.model.locationArgumentNavType
 import com.sevban.ui.model.toWeatherUiModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
@@ -24,6 +31,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import kotlin.reflect.typeOf
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(MainCoroutineExtension::class)
@@ -107,17 +115,35 @@ class HomeViewModelTest {
                 emit(dummyForecast)
             }
 
-            savedStateHandle[HomeViewModel.LATITUDE_ARG] = 1.0
-            savedStateHandle[HomeViewModel.LONGITUDE_ARG] = 2.0
+            // Create a location argument
+            val locationArgument = LocationArgument(1.0, 2.0)
+            
+            // Create a SavedStateHandle with the necessary route information
+            val savedStateHandleWithLocation = SavedStateHandle()
+            
+            // Mock the toRoute extension function
+            mockkStatic("androidx.navigation.SavedStateHandleKt")
+            
+            // Use explicit type parameters for the mock
+            every { 
+                savedStateHandleWithLocation.toRoute<Home>(typeMap = Home.typeMap)
+            } returns Home(locationArgument)
+            
+            // Create a new ViewModel with the mocked SavedStateHandle
+            val viewModelWithLocation = HomeViewModel(
+                getWeatherUseCase,
+                getForecastUseCase,
+                locationObserver,
+                savedStateHandleWithLocation
+            )
 
             turbineScope {
-                val uiStateTurbine = viewModel.uiState.testIn(backgroundScope)
+                val uiStateTurbine = viewModelWithLocation.uiState.testIn(backgroundScope)
 
                 val firstUiStateItem = uiStateTurbine.awaitItem()
-                assertThat(firstUiStateItem.latitude).isEqualTo(0.0)
-                assertThat(firstUiStateItem.longitude).isEqualTo(0.0)
+                assertThat(firstUiStateItem.location).isNull()
 
-                val weatherStateTurbine = viewModel.weatherState.testIn(backgroundScope)
+                val weatherStateTurbine = viewModelWithLocation.weatherState.testIn(backgroundScope)
 
                 val firstWeatherStateItem = weatherStateTurbine.awaitItem()
                 assertThat(firstWeatherStateItem).isEqualTo(WeatherState.Loading)
@@ -131,13 +157,12 @@ class HomeViewModelTest {
                 )
 
                 val secondUiStateItem = uiStateTurbine.awaitItem()
-                assertThat(secondUiStateItem.latitude).isEqualTo(1.0)
-                assertThat(secondUiStateItem.longitude).isEqualTo(2.0)
+                assertThat(secondUiStateItem.location).isNotNull()
+                assertThat(secondUiStateItem.location?.latitude).isEqualTo(1.0)
+                assertThat(secondUiStateItem.location?.longitude).isEqualTo(2.0)
 
                 uiStateTurbine.cancelAndIgnoreRemainingEvents()
                 weatherStateTurbine.cancelAndIgnoreRemainingEvents()
-
             }
         }
-
 }
