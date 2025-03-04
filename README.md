@@ -2,6 +2,8 @@
 
 A modern Android weather application built with Clean Architecture principles and modular design, providing real-time weather information.
 
+This is a production app, you can try it out from [Google Playstore](https://play.google.com/store/apps/details?id=com.sevban.weatherapp)
+
 ## 📱 Screenshots
 
 <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
@@ -87,42 +89,42 @@ app/
 ## 🚀 Getting Started
 
 1. Clone the repository
-git clone https://github.com/yourusername/celestia-weather.git
+`git clone https://github.com/yourusername/celestia-weather.git`
 
-2. Add your API keys in `local.properties`:
-MAPS_API_KEY=your_google_maps_api_key
+2. Add your OpenWeather API key in `local.properties`:
 WEATHER_API_KEY=your_weather_api_key
 
-3. Build and run the project in Android Studio
+3. Add your Google Maps API key in `local.defaults.properties` (under the ./gradle):
+MAPS_API_KEY=your_google_maps_api_key
+
+4. Build and run the project in Android Studio
 
 ## 📦 Dependencies Management
 
 The project uses a custom Gradle plugin for dependency management with version catalogs:
 kotlin
 // Example from build.gradle.kts
-dependencies {
-implementation(projects.core.network)
-implementation(projects.core.data)
-implementation(projects.core.model)
-// ...
-implementation(libs.androidx.ktx)
-implementation(libs.androidx.lifecycle.runtime.ktx)
-implementation(libs.bundles.compose)
-// ...
+```
+plugins {
+    alias(libs.plugins.celestia.android.library)
+    alias(libs.plugins.celestia.android.library.compose)
+    alias(libs.plugins.celestia.android.hilt)
+    alias(libs.plugins.celestia.android.feature)
 }
+dependencies {
+    // ...
+    implementation(libs.androidx.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.bundles.compose)
+    // ...
+}
+```
 
 
 ## 🧪 Testing Strategy
 
 - **Unit Tests**: Testing individual components (ViewModels, UseCases, Repositories)
-- **Integration Tests**: Testing interactions between components
 - **UI Tests**: Testing UI components with Compose Testing
-
-## 📱 Supported Devices
-
-- Android 8.0 (API 26) and above
-- Phones and tablets
-- Dark and light mode
 
 ## 🤝 Contributing
 
