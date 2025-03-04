@@ -29,7 +29,7 @@ fun HomeScreen(
     uiState: WeatherScreenUiState,
     permissionTrigger: Unit?,
     onEvent: (HomeScreenEvent) -> Unit,
-    onLocationClick: (LocationArgument) -> Unit,
+    onLocationClick: (LocationArgument?) -> Unit,
     onFutureDaysForecastClick: (LocationArgument) -> Unit,
     whenErrorOccurred: suspend (Throwable, String?) -> Unit
 ) {
@@ -48,7 +48,7 @@ fun HomeScreen(
             when (it) {
                 is WeatherState.NoLocationPermission -> NoLocationPermissionDialog(
                     onGiveLocationPermissionClick = { onEvent(HomeScreenEvent.OnGiveLocationPermissionClick) },
-                    onChooseAnotherLocationClick = { onLocationClick(LocationArgument(uiState.latitude, uiState.longitude)) },
+                    onChooseAnotherLocationClick = { onLocationClick(uiState.location) },
                     onDismiss = { }
                 )
 
@@ -62,16 +62,9 @@ fun HomeScreen(
                 is WeatherState.Success -> WeatherContent(
                     weather = it.weather,
                     forecast = it.forecast,
-                    onLocationClick = { onLocationClick(LocationArgument(uiState.latitude, uiState.longitude)) },
+                    onLocationClick = { onLocationClick(uiState.location) },
                     lastFetchedTime = uiState.lastFetchedTime,
-                    onFutureDaysForecastClick = {
-                        onFutureDaysForecastClick(
-                            LocationArgument(
-                                uiState.latitude,
-                                uiState.longitude
-                            )
-                        )
-                    },
+                    onFutureDaysForecastClick = { onFutureDaysForecastClick(uiState.location!!) },
                 )
             }
         }

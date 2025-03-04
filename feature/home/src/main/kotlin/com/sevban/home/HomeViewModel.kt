@@ -60,14 +60,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getLocation() : Flow<LocationArgument> = flow {
         val location = savedLocation ?: locationObserver.getCurrentLocation().first().toLocationArgument()
-        emit(location).also {
-            _uiState.update {
-                it.copy(
-                    latitude = location.latitude,
-                    longitude = location.longitude
-                )
-            }
-        }
+        emit(location).also { _uiState.update { it.copy(location = location) } }
     }
 
     val weatherState = retryTrigger.receiveAsFlow()

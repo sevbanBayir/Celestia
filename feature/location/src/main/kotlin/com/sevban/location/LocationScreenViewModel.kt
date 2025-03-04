@@ -43,25 +43,22 @@ class LocationScreenViewModel @Inject constructor(
     private val _error = Channel<Throwable>()
     val error = _error.receiveAsFlow()
 
-    private val _uiState = MutableStateFlow(LocationScreenUiState())
-    val uiState = _uiState.asStateFlow()
-
     private val initialLocation = savedStateHandle.toRoute<Location>(typeMap = Location.typeMap).location
 
-    init {
-        viewModelScope.launch {
-            println("initial location: $initialLocation")
-
-            geocoder.getPlace(initialLocation.latitude, initialLocation.longitude)?.let {
-                println("initial location: $it")
-                onEvent(LocationScreenEvent.OnLocationSelected(it))
-            }
+    private val _uiState = MutableStateFlow(LocationScreenUiState())
+    val uiState = _uiState.onStart {
+        if (initialLocation == null) return@onStart
+        geocoder.getPlace(initialLocation.latitude, initialLocation.longitude)?.let {
+            onEvent(LocationScreenEvent.OnLocationSelected(it))
         }
-    }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = LocationScreenUiState()
+    )
 
     private val _searchQuery = MutableStateFlow(String.EMPTY)
     val searchQuery = _searchQuery.asStateFlow()
-
 
     val placeListState: StateFlow<PlaceListState> = _searchQuery
         .onEach { _uiState.update { it.copy(isPlaceListLoading = true) } }
@@ -99,7 +96,6 @@ class LocationScreenViewModel @Inject constructor(
             }
 
             is LocationScreenEvent.OnLocationSelected -> {
-                println("place selected: ${event.prediction}")
 
                 _uiState.update { it.copy(selectedPlace = event.prediction) }
                 _searchQuery.update { String.EMPTY }
