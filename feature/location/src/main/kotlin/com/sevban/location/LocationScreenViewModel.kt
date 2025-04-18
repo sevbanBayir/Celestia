@@ -66,7 +66,11 @@ class LocationScreenViewModel @Inject constructor(
             if (it.isBlank()) flowOf(null)
             else placeAutocompleteService.getAutocomplete(it)
         }
-        .catch { _error.send(it) }
+        .catch {
+            println("error in placeListState: $it")
+            _error.send(it)
+
+        }
         .mapLatest { placeTexts ->
             if (placeTexts == null) {
                 _uiState.update { it.copy(isPlaceListLoading = false) }
@@ -82,7 +86,10 @@ class LocationScreenViewModel @Inject constructor(
                 _uiState.update { it.copy(isPlaceListLoading = false) }
             }
         }
-        .catch { _error.send(it) }
+        .catch {
+            println("error in placeListState: $it")
+            _error.send(it)
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),

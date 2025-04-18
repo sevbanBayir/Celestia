@@ -39,6 +39,7 @@ class PlaceAutocompleteService @Inject constructor(
         }
         task.addOnFailureListener { exception ->
             trySend(emptyList())
+            println(exception)
             close(exception)
         }
         awaitClose()

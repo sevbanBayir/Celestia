@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,7 +52,7 @@ fun PlaceWeatherMarker(
     val asyncImagePainter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(weatherForSelectedLocation.iconUrl)
-            .size(120.dp.value.toInt())
+            .size(60.dp.value.toInt())
             .allowHardware(false)
             .build(),
     )
@@ -70,7 +71,7 @@ fun PlaceWeatherMarker(
     ) {
         Column(
             modifier = modifier
-                .size(120.dp)
+                .size(height = 96.dp, width = 120.dp)
                 .clip(MaterialTheme.shapes.medium)
                 .background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.Center,
@@ -82,27 +83,35 @@ fun PlaceWeatherMarker(
                     .fillMaxSize()
             ) {
                 Text(
-                    text = markerLocation.cityName,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(4.dp).fillMaxWidth()
+                    text = markerLocation.cityName ?: markerLocation.country,
+                    style = MaterialTheme.typography.titleSmall,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .fillMaxWidth()
                 )
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(4.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Image(
                         painter = asyncImagePainter,
-                        modifier = Modifier.size(70.dp),
+                        modifier = Modifier.size(60.dp),
                         contentDescription = null
                     )
                     Text(
-                        text = stringResource(com.sevban.ui.R.string.temperature_celsius, weatherForSelectedLocation.temp),
+                        text = stringResource(
+                            com.sevban.ui.R.string.temperature_celsius,
+                            weatherForSelectedLocation.temp
+                        ),
+                        overflow = TextOverflow.Clip,
                         style = MaterialTheme.typography.headlineLarge.copy(
-                            fontSize = 20.sp,
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.ExtraBold
                         ),
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(4.dp)
                     )
                 }
             }
@@ -113,7 +122,7 @@ fun PlaceWeatherMarker(
 @Preview(showBackground = true)
 @Composable
 private fun PlaceWeatherMarkerPreview() {
-    ComposeScaffoldProjectTheme { 
+    ComposeScaffoldProjectTheme {
         PlaceWeatherMarker(
             markerLocation = Place(
                 cityName = "Istanbul",
