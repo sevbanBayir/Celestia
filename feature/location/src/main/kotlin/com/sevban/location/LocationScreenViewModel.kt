@@ -66,11 +66,7 @@ class LocationScreenViewModel @Inject constructor(
             if (it.isBlank()) flowOf(null)
             else placeAutocompleteService.getAutocomplete(it)
         }
-        .catch {
-            println("error in placeListState: $it")
-            _error.send(it)
-
-        }
+        .catch { _error.send(it) }
         .mapLatest { placeTexts ->
             if (placeTexts == null) {
                 _uiState.update { it.copy(isPlaceListLoading = false) }
