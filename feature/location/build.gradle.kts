@@ -40,6 +40,8 @@ dependencies {
 
     // Serialization
     implementation(libs.kotlin.serialization)
+    // https://issuetracker.google.com/issues/412867387#comment3 places sdk needs material dep.
+    implementation(libs.material)
 
 
     // Testing
