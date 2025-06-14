@@ -36,7 +36,7 @@ runner = "1.6.2"
 junit4 = "4.13.2"
 
 # PLUGIN
-androidGradlePlugin = "8.8.1"
+androidGradlePlugin = "8.10.1"
 org-jetbrains-kotlin-jvm = "2.1.10"
 mapsPlatformSecretsPlugin = "2.0.1"
 junitEnginePlugin = "1.11.2.0"
