@@ -12,6 +12,10 @@ dependencies {
     implementation(projects.core.network)
     implementation(projects.core.common)
 
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+
     // Testing
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.android.testing)
