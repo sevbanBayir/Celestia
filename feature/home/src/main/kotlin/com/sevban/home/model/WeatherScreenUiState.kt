@@ -11,7 +11,8 @@ data class WeatherScreenUiState(
     val isPermissionDeclined: Boolean = false,
     val isPermissionPermanentlyDeclined: Boolean = false,
     val lastFetchedTime: String = String.EMPTY,
-    val location : LocationArgument? = null
+    val location: LocationArgument? = null,
+    val preferredLocationName: String? = null // User's selected location name
 )
 
 sealed interface WeatherState {

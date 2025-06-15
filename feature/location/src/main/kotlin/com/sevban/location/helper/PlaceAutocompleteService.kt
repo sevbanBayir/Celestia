@@ -2,6 +2,7 @@ package com.sevban.location.helper
 
 import android.content.Context
 import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.PlaceTypes
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.sevban.common.helper.DispatcherProvider
@@ -31,6 +32,7 @@ class PlaceAutocompleteService @Inject constructor(
     fun getAutocomplete(query: String) = callbackFlow<List<PlaceText>> {
         val request = FindAutocompletePredictionsRequest.builder()
             .setQuery(query)
+            .setTypesFilter(listOf(PlaceTypes.CITIES))
             .build()
         val task = client.findAutocompletePredictions(request)
 
@@ -39,7 +41,6 @@ class PlaceAutocompleteService @Inject constructor(
         }
         task.addOnFailureListener { exception ->
             trySend(emptyList())
-            println(exception)
             close(exception)
         }
         awaitClose()
