@@ -21,7 +21,8 @@ fun CurrentWeatherCard(
     forecast: ForecastUiModel,
     lastFetchedTime: String,
     onLocationClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    preferredLocationName: String? = null
 ) {
     Card(modifier = modifier.fillMaxWidth()) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -48,7 +49,8 @@ fun CurrentWeatherCard(
                     modifier = Modifier.padding(12.dp),
                     cityName = weather.cityName,
                     lastFetchedTime = lastFetchedTime,
-                    onLocationClick = onLocationClick
+                    onLocationClick = onLocationClick,
+                    preferredLocationName = preferredLocationName
                 )
 
                 TemperatureAndDescription(

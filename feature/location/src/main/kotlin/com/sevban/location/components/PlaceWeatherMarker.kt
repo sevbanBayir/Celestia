@@ -31,6 +31,7 @@ import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.MarkerState
 import com.sevban.designsystem.theme.ComposeScaffoldProjectTheme
 import com.sevban.model.Place
+import com.sevban.ui.R
 import com.sevban.ui.model.WeatherUiModel
 
 @Composable
@@ -92,7 +93,9 @@ fun PlaceWeatherMarker(
                         .fillMaxWidth()
                 )
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(4.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
@@ -103,7 +106,7 @@ fun PlaceWeatherMarker(
                     )
                     Text(
                         text = stringResource(
-                            com.sevban.ui.R.string.temperature_celsius,
+                            R.string.temperature_celsius,
                             weatherForSelectedLocation.temp
                         ),
                         overflow = TextOverflow.Clip,
@@ -128,7 +131,8 @@ private fun PlaceWeatherMarkerPreview() {
                 cityName = "Istanbul",
                 country = "Turkey",
                 latitude = 41.0,
-                longitude = 28.9
+                longitude = 28.9,
+                fullText = "Istanbul, Turkey"
             ),
             onMarkerClick = {},
             weatherForSelectedLocation = WeatherUiModel(

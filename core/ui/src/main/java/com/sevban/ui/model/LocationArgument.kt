@@ -6,21 +6,28 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.navigation.NavType
 import com.sevban.model.DomainLocation
+import com.sevban.model.Place
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @Serializable
 @Parcelize
 data class LocationArgument(
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    val locationName: String? = null
 ) : Parcelable
 
 fun DomainLocation.toLocationArgument() = LocationArgument(
     latitude = latitude,
     longitude = longitude
+)
+
+fun Place.toLocationArgument() = LocationArgument(
+    latitude = latitude,
+    longitude = longitude,
+    locationName = cityName ?: country
 )
 
 val locationArgumentNavType = object : NavType<LocationArgument?>(

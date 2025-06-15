@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -37,7 +36,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import java.time.LocalDateTime
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
@@ -58,9 +56,17 @@ class HomeViewModel @Inject constructor(
 
     private val savedLocation = savedStateHandle.toRoute<Home>(typeMap = Home.typeMap).location
 
-    private fun getLocation() : Flow<LocationArgument> = flow {
-        val location = savedLocation ?: locationObserver.getCurrentLocation().first().toLocationArgument()
-        emit(location).also { _uiState.update { it.copy(location = location) } }
+    private fun getLocation(): Flow<LocationArgument> = flow {
+        val location =
+            savedLocation ?: locationObserver.getCurrentLocation().first().toLocationArgument()
+        emit(location).also {
+            _uiState.update {
+                it.copy(
+                    location = location,
+                    preferredLocationName = location.locationName // Preserve user's selection
+                )
+            }
+        }
     }
 
     val weatherState = retryTrigger.receiveAsFlow()
@@ -84,25 +90,25 @@ class HomeViewModel @Inject constructor(
                     }
                 )
             }
-            .onEach<WeatherState> {
-                _uiState.update {
-                    it.copy(lastFetchedTime = timeFormatter.format(LocalDateTime.now()))
-                }
-            }.catch {
-                when (it) {
-                    is MissingLocationPermissionException -> {
-                        emit(WeatherState.NoLocationPermission)
+                .onEach<WeatherState> {
+                    _uiState.update {
+                        it.copy(lastFetchedTime = timeFormatter.format(LocalDateTime.now()))
                     }
+                }.catch {
+                    when (it) {
+                        is MissingLocationPermissionException -> {
+                            emit(WeatherState.NoLocationPermission)
+                        }
 
-                    is Failure -> {
-                        emit(WeatherState.Error(it))
-                    }
+                        is Failure -> {
+                            emit(WeatherState.Error(it))
+                        }
 
-                    else -> {
-                        emit(WeatherState.Error(Failure(throwable = it)))
+                        else -> {
+                            emit(WeatherState.Error(Failure(throwable = it)))
+                        }
                     }
-                }
-            }.onStart { emit(WeatherState.Loading) }
+                }.onStart { emit(WeatherState.Loading) }
         }
         .stateIn(
             scope = viewModelScope,

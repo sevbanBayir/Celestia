@@ -14,6 +14,7 @@ import com.sevban.model.Place
 import com.sevban.ui.components.LoadingScreen
 import com.sevban.ui.model.LocationArgument
 import com.sevban.ui.model.WeatherUiModel
+import com.sevban.ui.model.toLocationArgument
 
 @Composable
 fun GoogleMapWithLoading(
@@ -39,12 +40,7 @@ fun GoogleMapWithLoading(
                 markerLocation = markerLocation,
                 weatherForSelectedLocation = weatherForSelectedLocation,
                 onMarkerClick = {
-                    onMarkerClick(
-                        LocationArgument(
-                            markerLocation.latitude,
-                            markerLocation.longitude
-                        )
-                    )
+                    onMarkerClick(markerLocation.toLocationArgument())
                 },
             )
     }

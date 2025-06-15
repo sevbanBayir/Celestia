@@ -43,7 +43,8 @@ class LocationScreenViewModel @Inject constructor(
     private val _error = Channel<Throwable>()
     val error = _error.receiveAsFlow()
 
-    private val initialLocation = savedStateHandle.toRoute<Location>(typeMap = Location.typeMap).location
+    private val initialLocation =
+        savedStateHandle.toRoute<Location>(typeMap = Location.typeMap).location
 
     private val _uiState = MutableStateFlow(LocationScreenUiState())
     val uiState = _uiState.onStart {
@@ -74,7 +75,7 @@ class LocationScreenViewModel @Inject constructor(
             }
 
             placeTexts.mapNotNull { searchQuery ->
-                geocoder.getCityCoordinates(searchQuery)
+                geocoder.getPlaceCoordinates(searchQuery)
             }.let { places ->
                 if (places.isEmpty()) PlaceListState.Empty
                 else PlaceListState.Success(places)
@@ -83,7 +84,6 @@ class LocationScreenViewModel @Inject constructor(
             }
         }
         .catch {
-            println("error in placeListState: $it")
             _error.send(it)
         }
         .stateIn(

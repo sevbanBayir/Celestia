@@ -65,6 +65,7 @@ fun HomeScreen(
                     onLocationClick = { onLocationClick(uiState.location) },
                     lastFetchedTime = uiState.lastFetchedTime,
                     onFutureDaysForecastClick = { onFutureDaysForecastClick(uiState.location!!) },
+                    preferredLocationName = uiState.preferredLocationName
                 )
             }
         }

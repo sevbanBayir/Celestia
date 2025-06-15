@@ -8,12 +8,12 @@ fun AutocompletePrediction.toPlace(): PlaceText {
     val primaryText = getPrimaryText(null)
     val secondaryText = getSecondaryText(null)
 
-    val name = primaryText.toString()
-    val country = secondaryText.toString()
+    val predictedPrimaryText = primaryText.toString() // City
+    val predictedSecondaryText = secondaryText.toString() // Country
 
     return PlaceText(
-        fullText = fullText.toString(),
-        primaryText = name,
-        secondaryText = country
+        predictedFullText = fullText.toString(),
+        predictedCityText = predictedPrimaryText,
+        predictedCountryText = predictedSecondaryText
     )
 }

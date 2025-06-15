@@ -18,6 +18,7 @@ fun WeatherContent(
     onLocationClick: () -> Unit,
     onFutureDaysForecastClick: () -> Unit,
     modifier: Modifier = Modifier,
+    preferredLocationName: String? = null
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -28,7 +29,8 @@ fun WeatherContent(
             weather = weather,
             onLocationClick = onLocationClick,
             forecast = forecast,
-            lastFetchedTime = lastFetchedTime
+            lastFetchedTime = lastFetchedTime,
+            preferredLocationName = preferredLocationName
         )
 
         HeaderAndMoreBox(

@@ -21,7 +21,8 @@ fun LocationAndFetchTimeBox(
     cityName: String,
     lastFetchedTime: String,
     onLocationClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    preferredLocationName: String? = null // User's selected location name
 ) {
     Box(
         modifier = modifier.fillMaxWidth(),
@@ -38,7 +39,7 @@ fun LocationAndFetchTimeBox(
                 contentDescription = stringResource(id = R.string.cd_location_icon)
             )
             Text(
-                text = cityName,
+                text = preferredLocationName ?: cityName,
                 color = MaterialTheme.colorScheme.onBackground,
             )
         }
