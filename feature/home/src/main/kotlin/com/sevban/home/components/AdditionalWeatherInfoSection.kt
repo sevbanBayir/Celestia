@@ -2,8 +2,11 @@ package com.sevban.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +26,6 @@ fun AdditionalWeatherInfoSection(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // First row: FeelsLike and Pressure cards
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -41,25 +43,30 @@ fun AdditionalWeatherInfoSection(
             )
         }
 
-        // Second row: Rain and Precipitation cards
+
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             RainCard(
                 rainInfo = weather.rainInfo,
                 isRaining = weather.isRaining,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
             )
-
+            
             PrecipitationCard(
                 precipitationChance = forecast.precipitationChance,
                 nextRainTime = forecast.nextRainTime,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
             )
         }
 
-        // Today's High/Low card
         TodayHighLowCard(
             high = forecast.todayHigh,
             low = forecast.todayLow,
