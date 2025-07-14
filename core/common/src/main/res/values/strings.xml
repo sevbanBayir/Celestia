@@ -14,4 +14,21 @@
     <string name="give_location_permission">Grant Location Permission</string>
     <string name="choose_another_location">Choose Location</string>
     <string name="or">Or</string>
+
+    <!-- Weather Localization -->
+    <string name="pressure_low">Low</string>
+    <string name="pressure_normal">Normal</string>
+    <string name="pressure_high">High</string>
+    <string name="temp_range_format">%1$s° - %2$s°</string>
+    <string name="pressure_with_unit">%s hPa</string>
+
+    <!-- Rain Localization -->
+    <string name="rain_volume_format">%s mm</string>
+    <string name="precipitation_chance_format">%s%%</string>
+    <string name="no_rain">No rain</string>
+    <string name="light_rain">Light rain</string>
+    <string name="moderate_rain">Moderate rain</string>
+    <string name="heavy_rain">Heavy rain</string>
+    <string name="next_rain_in">Rain in %s</string>
+    <string name="no_rain_expected">No rain expected</string>
 </resources>

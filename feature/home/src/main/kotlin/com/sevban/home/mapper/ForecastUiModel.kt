@@ -14,7 +14,12 @@ data class ForecastUiModel(
     val city: String?,
     val forecastBy3Hours: List<ForecastWeatherUi>,
     val chartData: ChartData,
-    val next24Hours: List<ForecastWeatherUi>
+    val next24Hours: List<ForecastWeatherUi>,
+    // New localized fields
+    val todayHigh: String,
+    val todayLow: String,
+    val precipitationChance: String, // Today's highest precipitation probability formatted
+    val nextRainTime: String // Next expected rain time
 )
 
 data class ChartData(
@@ -57,6 +62,12 @@ fun Forecast.toForecastUiModel(): ForecastUiModel {
         city = city,
         forecastBy3Hours = forecastBy3Hours,
         chartData = chartData,
-        next24Hours = nex24Hours()
+        next24Hours = nex24Hours(),
+        // Default values for new fields (used by tests)
+        todayHigh = "",
+        todayLow = "",
+        precipitationChance = "",
+        nextRainTime = ""
     )
 }
+

@@ -150,8 +150,14 @@ private fun PlaceWeatherMarkerPreview() {
                 tempMin = "reprehendunt",
                 visibility = "constituto",
                 windSpeed = "mazim",
-                video = null
-            )
+                video = null,
+                pressureStatus = "eius",
+                pressureWithUnit = "possit",
+                tempRange = "sit",
+                rainInfo = "dico",
+                isRaining = false,
+
+                )
         )
     }
 }

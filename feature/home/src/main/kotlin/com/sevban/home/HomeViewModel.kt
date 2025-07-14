@@ -10,13 +10,13 @@ import com.sevban.common.location.MissingLocationPermissionException
 import com.sevban.common.model.Failure
 import com.sevban.domain.usecase.GetForecastUseCase
 import com.sevban.domain.usecase.GetWeatherUseCase
-import com.sevban.home.mapper.toForecastUiModel
+import com.sevban.home.mapper.ForecastUiModelMapper
 import com.sevban.home.model.WeatherScreenUiState
 import com.sevban.home.model.WeatherState
 import com.sevban.home.navigation.Home
+import com.sevban.ui.mapper.WeatherUiModelMapper
 import com.sevban.ui.model.LocationArgument
 import com.sevban.ui.model.toLocationArgument
-import com.sevban.ui.model.toWeatherUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -43,6 +43,8 @@ class HomeViewModel @Inject constructor(
     private val getWeatherUseCase: GetWeatherUseCase,
     private val getForecastUseCase: GetForecastUseCase,
     private val locationObserver: LocationObserver,
+    private val weatherMapper: WeatherUiModelMapper,
+    private val forecastMapper: ForecastUiModelMapper,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -84,8 +86,8 @@ class HomeViewModel @Inject constructor(
                     ),
                     transform = { weather, forecast ->
                         WeatherState.Success(
-                            weather = weather.toWeatherUiModel(),
-                            forecast = forecast.toForecastUiModel()
+                            weather = weatherMapper.mapToUiModel(weather),
+                            forecast = forecastMapper.mapToUiModel(forecast)
                         )
                     }
                 )
