@@ -14,7 +14,9 @@ fun ForecastDTO.toForecast() = Forecast(
             temperature = it.main?.temp,
             date = it.dtTxt ?: "",
             icon = it.weather?.firstOrNull()?.icon,
-            description = it.weather?.firstOrNull()?.description
+            description = it.weather?.firstOrNull()?.description,
+            precipitationProbability = it.pop,
+            rainVolume1h = it.rain?.h
         )
     } ?: emptyList(),
 )

@@ -22,7 +22,13 @@ data class WeatherUiModel(
     val tempMin: String,
     val visibility: String,
     val windSpeed: String,
-    val video: String?
+    val video: String?,
+    // New localized fields
+    val pressureStatus: String,
+    val pressureWithUnit: String,
+    val tempRange: String,
+    val rainInfo: String, // Formatted rain information
+    val isRaining: Boolean
 )
 
 fun Weather.toWeatherUiModel() = WeatherUiModel(
@@ -40,7 +46,13 @@ fun Weather.toWeatherUiModel() = WeatherUiModel(
     tempMin = tempMin?.toString() ?: String.EMPTY,
     visibility = visibility?.toString() ?: String.EMPTY,
     windSpeed = windSpeed?.toString() ?: String.EMPTY,
-    video = description?.toWeatherType()?.getVideoName()
+    video = description?.toWeatherType()?.getVideoName(),
+    // Default values for new fields (used by tests)
+    pressureStatus = "",
+    pressureWithUnit = pressure?.toString() ?: "",
+    tempRange = "",
+    rainInfo = "",
+    isRaining = false
 )
 
 fun createWeatherIconURL(icon: String?): String {

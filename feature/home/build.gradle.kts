@@ -14,6 +14,10 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.designsystem)
+    // Material Icons Extended
+    implementation(libs.compose.material.icons.extended)
+
     // Coil
     implementation(libs.coil.compose)
 

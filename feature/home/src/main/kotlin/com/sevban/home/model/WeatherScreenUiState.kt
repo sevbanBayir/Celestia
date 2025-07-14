@@ -19,5 +19,8 @@ sealed interface WeatherState {
     data object Loading : WeatherState
     data object NoLocationPermission : WeatherState
     data class Error(val failure: Failure) : WeatherState
-    data class Success(val weather: WeatherUiModel, val forecast: ForecastUiModel) : WeatherState
+    data class Success(
+        val weather: WeatherUiModel,
+        val forecast: ForecastUiModel
+    ) : WeatherState
 }

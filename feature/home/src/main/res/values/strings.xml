@@ -11,4 +11,18 @@
     <string name="future_days_forecast_button">Next 5 Days</string>
     <string name="today_all_data_title">Today</string>
     <string name="next_24_hours">Next 24 Hours</string>
+
+    <!-- New Weather Features -->
+    <string name="feels_like_label">Feels like</string>
+    <string name="pressure_label">Pressure</string>
+    <string name="today_high_low">Today</string>
+    <string name="cd_pressure_icon">Pressure icon</string>
+    <string name="cd_thermometer_icon">Temperature range icon</string>
+    <string name="actual_temp_label">Actual</string>
+
+    <!-- Rain Features -->
+    <string name="rain_label">Rain</string>
+    <string name="precipitation_label">Precipitation</string>
+    <string name="cd_rain_icon">Rain icon</string>
+    <string name="cd_umbrella_icon">Umbrella icon</string>
 </resources>

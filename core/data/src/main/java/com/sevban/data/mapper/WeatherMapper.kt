@@ -17,5 +17,6 @@ fun WeatherDTO.toWeather() = Weather(
     tempMax = main?.tempMax,
     tempMin = main?.tempMin,
     visibility = visibility,
-    windSpeed = wind?.speed
+    windSpeed = wind?.speed,
+    rainVolume1h = rain?.h
 )
