@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_tf_search">Arama</string>
+    <string name="map_tf_no_results">Sonuç bulunamadı</string>
+    <string name="cd_search_icon">Arama simgesi</string>
+    <string name="cd_clear_search_icon">Aramayı temizle simgesi</string>
+</resources> 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="try_again">Tekrar dene</string>
+
+    <!-- Weather Feature Formatters-->
+    <string name="wind">%sm/s</string>
+    <string name="humidity">%s%%</string>
+    <string name="visibility">%sm</string>
+    <string name="temperature_celsius">%s °</string>
+    <string name="temperature_celsius_without_space">%s°</string>
+    <string name="cd_wind_icon">Rüzgar simgesi</string>
+    <string name="cd_humidity_icon">Nem simgesi</string>
+    <string name="cd_visibility_icon">Görüş mesafesi simgesi</string>
+</resources> 
