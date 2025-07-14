@@ -66,12 +66,6 @@ fun AdditionalWeatherInfoSection(
                     .fillMaxHeight()
             )
         }
-
-        TodayHighLowCard(
-            high = forecast.todayHigh,
-            low = forecast.todayLow,
-            tempRange = weather.tempRange,
-        )
     }
 }
 
