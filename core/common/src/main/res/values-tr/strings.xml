@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="made_too_many_requests">Çok fazla istek yapıldı. Daha sonra tekrar deneyin.</string>
+    <string name="server_error">Sunucu hatası. Lütfen tekrar deneyin.</string>
+    <string name="unknown_error">Bir hata oluştu. Tekrar deneyin.</string>
+    <string name="not_found">Bulunamadı.</string>
+    <string name="forbidden">Erişim reddedildi.</string>
+    <string name="unauthorized">Yetkisiz. Giriş bilgilerinizi kontrol edin.</string>
+    <string name="bad_request">Geçersiz istek.</string>
+    <string name="empty_response">Kullanılabilir veri yok.</string>
+    <string name="serialization_error">Veri işleme hatası.</string>
+    <string name="location_error">Konum kullanılamıyor.</string>
+    <string name="connectivity_error">İnternet bağlantısı yok.</string>
+    <string name="give_location_permission">Konum İznini Ver</string>
+    <string name="choose_another_location">Konum Seç</string>
+    <string name="or">Veya</string>
+
+    <!-- Weather Localization -->
+    <string name="pressure_low">Düşük</string>
+    <string name="pressure_normal">Normal</string>
+    <string name="pressure_high">Yüksek</string>
+    <string name="temp_range_format">%1$s° - %2$s°</string>
+    <string name="pressure_with_unit">%s hPa</string>
+
+    <!-- Rain Localization -->
+    <string name="rain_volume_format">%s mm</string>
+    <string name="precipitation_chance_format">%s%%</string>
+    <string name="no_rain">Yağmur yok</string>
+    <string name="light_rain">Hafif yağmur</string>
+    <string name="moderate_rain">Orta şiddette yağmur</string>
+    <string name="heavy_rain">Şiddetli yağmur</string>
+    <string name="next_rain_in">%s sonra yağmur</string>
+    <string name="no_rain_expected">Yağmur beklenmemiyor</string>
+</resources> 

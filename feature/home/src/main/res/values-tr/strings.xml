@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cd_weather_summary_card">Hava durumu özeti kartı</string>
+    <string name="feels_like">Hissedilen %s °</string>
+    <string name="wind_top_text">Rüzgar</string>
+    <string name="humidity_top_text">Nem</string>
+    <string name="visibility_top_text">Görüş</string>
+    <string name="cd_location_icon">Konum düğmesi simgesi</string>
+    <string name="last_fetched_at">Son güncelleme %s</string>
+    <string name="forecast">Sıcaklıklar</string>
+    <string name="future_days_forecast_button">Sonraki 5 Gün</string>
+    <string name="today_all_data_title">Bugün</string>
+    <string name="next_24_hours">Sonraki 24 Saat</string>
+
+    <!-- New Weather Features -->
+    <string name="feels_like_label">Hissedilen</string>
+    <string name="pressure_label">Basınç</string>
+    <string name="today_high_low">Bugün</string>
+    <string name="cd_pressure_icon">Basınç simgesi</string>
+    <string name="cd_thermometer_icon">Sıcaklık aralığı simgesi</string>
+    <string name="actual_temp_label">Gerçek</string>
+
+    <!-- Rain Features -->
+    <string name="rain_label">Yağmur</string>
+    <string name="precipitation_label">Yağış</string>
+    <string name="cd_rain_icon">Yağmur simgesi</string>
+    <string name="cd_umbrella_icon">Şemsiye simgesi</string>
+</resources> 

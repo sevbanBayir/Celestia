@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.sevban.common.model.Failure
-import com.sevban.detail.mapper.toForecastUiModel
+import com.sevban.detail.mapper.DetailForecastUiModelMapper
 import com.sevban.domain.usecase.GetForecastUseCase
 import com.sevban.model.Forecast
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val getForecastUseCase: GetForecastUseCase,
+    private val forecastMapper: DetailForecastUiModelMapper,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -41,7 +42,7 @@ class DetailViewModel @Inject constructor(
                 long = location.longitude.toString()
             )
                 .map<Forecast, ForecastState> {
-                    ForecastState.Success(it.toForecastUiModel())
+                    ForecastState.Success(forecastMapper.mapToUiModel(it))
                 }.catch {
                     val failure = it as? Failure ?: Failure(throwable = it)
                     emit(ForecastState.Error(failure))
