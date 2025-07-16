@@ -14,9 +14,24 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WeatherDao {
     
+    companion object {
+        /**
+         * Location tolerance in degrees for proximity search.
+         * 0.01 degrees is roughly 1.1km at the equator.
+         * This handles GPS coordinate variations and nearby locations.
+         */
+        const val LOCATION_TOLERANCE_DEGREES = 0.01
+    }
+    
     // Weather operations
-    @Query("SELECT * FROM weather WHERE latitude = :lat AND longitude = :lng")
-    fun getWeatherByLocation(lat: Double, lng: Double): Flow<WeatherEntity?>
+    @Query("""
+        SELECT * FROM weather 
+        WHERE ABS(latitude - :lat) <= :tolerance 
+        AND ABS(longitude - :lng) <= :tolerance
+        ORDER BY ABS(latitude - :lat) + ABS(longitude - :lng) ASC
+        LIMIT 1
+    """)
+    fun getWeatherByLocation(lat: Double, lng: Double, tolerance: Double = LOCATION_TOLERANCE_DEGREES): Flow<WeatherEntity?>
     
     @Query("SELECT * FROM weather WHERE isSynced = 0")
     suspend fun getUnsyncedWeather(): List<WeatherEntity>
@@ -31,12 +46,24 @@ interface WeatherDao {
     suspend fun deleteOldWeatherData(timestamp: Long)
     
     // Forecast operations
-    @Query("SELECT * FROM forecast WHERE latitude = :lat AND longitude = :lng")
-    fun getForecastByLocation(lat: Double, lng: Double): Flow<ForecastEntity?>
+    @Query("""
+        SELECT * FROM forecast 
+        WHERE ABS(latitude - :lat) <= :tolerance 
+        AND ABS(longitude - :lng) <= :tolerance
+        ORDER BY ABS(latitude - :lat) + ABS(longitude - :lng) ASC
+        LIMIT 1
+    """)
+    fun getForecastByLocation(lat: Double, lng: Double, tolerance: Double = LOCATION_TOLERANCE_DEGREES): Flow<ForecastEntity?>
     
     @Transaction
-    @Query("SELECT * FROM forecast WHERE latitude = :lat AND longitude = :lng")
-    fun getForecastWithWeatherItems(lat: Double, lng: Double): Flow<ForecastWithWeatherItems?>
+    @Query("""
+        SELECT * FROM forecast 
+        WHERE ABS(latitude - :lat) <= :tolerance 
+        AND ABS(longitude - :lng) <= :tolerance
+        ORDER BY ABS(latitude - :lat) + ABS(longitude - :lng) ASC
+        LIMIT 1
+    """)
+    fun getForecastWithWeatherItems(lat: Double, lng: Double, tolerance: Double = LOCATION_TOLERANCE_DEGREES): Flow<ForecastWithWeatherItems?>
     
     @Query("SELECT * FROM forecast WHERE isSynced = 0")
     suspend fun getUnsyncedForecasts(): List<ForecastEntity>

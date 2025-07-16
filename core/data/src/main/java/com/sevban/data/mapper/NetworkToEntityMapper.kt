@@ -5,6 +5,17 @@ import com.sevban.database.model.ForecastWeatherEntity
 import com.sevban.database.model.WeatherEntity
 import com.sevban.network.source.remote.model.forecast.ForecastDTO
 import com.sevban.network.source.remote.model.weather.WeatherDTO
+import kotlin.math.round
+
+/**
+ * Generates a location-tolerant ID by rounding coordinates to 2 decimal places.
+ * This ensures that nearby locations (within ~1km) share the same forecast data.
+ */
+private fun generateLocationId(latitude: Double, longitude: Double): String {
+    val roundedLat = round(latitude * 100) / 100  // Round to 2 decimal places
+    val roundedLng = round(longitude * 100) / 100
+    return "${roundedLat}_${roundedLng}"
+}
 
 fun WeatherDTO.toEntity(latitude: Double, longitude: Double): WeatherEntity {
     return WeatherEntity(
@@ -33,7 +44,7 @@ fun WeatherDTO.toEntity(latitude: Double, longitude: Double): WeatherEntity {
 
 fun ForecastDTO.toEntity(latitude: Double, longitude: Double): ForecastEntity {
     return ForecastEntity(
-        id = "${latitude}_${longitude}",
+        id = generateLocationId(latitude, longitude),
         cod = this.cod,
         city = this.city?.name,
         cnt = this.cnt,

@@ -11,6 +11,7 @@
     <string name="serialization_error">Veri işleme hatası.</string>
     <string name="location_error">Konum kullanılamıyor.</string>
     <string name="connectivity_error">İnternet bağlantısı yok.</string>
+    <string name="no_data_available">Kullanılabilir veri yok. Yenilemek için kaydırın.</string>
     <string name="give_location_permission">Konum İznini Ver</string>
     <string name="choose_another_location">Konum Seç</string>
     <string name="or">Veya</string>

@@ -20,7 +20,8 @@ enum class ErrorType {
     EMPTY_RESPONSE,
     SERIALIZATION,
     LOCATION_ERROR,
-    CONNECTIVITY_ERROR
+    CONNECTIVITY_ERROR,
+    NO_DATA_AVAILABLE
 }
 
 fun ErrorType.toLocalizedMessage(context: Context) = when (this) {
@@ -35,4 +36,5 @@ fun ErrorType.toLocalizedMessage(context: Context) = when (this) {
     ErrorType.SERIALIZATION -> context.getString(R.string.serialization_error)
     ErrorType.LOCATION_ERROR -> context.getString(R.string.location_error)
     ErrorType.CONNECTIVITY_ERROR -> context.getString(R.string.connectivity_error)
+    ErrorType.NO_DATA_AVAILABLE -> context.getString(R.string.no_data_available)
 }

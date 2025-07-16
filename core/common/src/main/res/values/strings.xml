@@ -11,6 +11,7 @@
     <string name="serialization_error">Data processing error.</string>
     <string name="location_error">Location unavailable.</string>
     <string name="connectivity_error">No internet connection.</string>
+    <string name="no_data_available">No data available. Pull to refresh.</string>
     <string name="give_location_permission">Grant Location Permission</string>
     <string name="choose_another_location">Choose Location</string>
     <string name="or">Or</string>
