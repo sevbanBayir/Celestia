@@ -1,4 +1,4 @@
-package com.sevban.network.model.forecast
+package com.sevban.network.source.remote.model.forecast
 
 
 import com.google.gson.annotations.SerializedName

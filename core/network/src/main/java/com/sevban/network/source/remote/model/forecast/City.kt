@@ -1,8 +1,8 @@
-package com.sevban.network.model.forecast
+package com.sevban.network.source.remote.model.forecast
 
 
 import com.google.gson.annotations.SerializedName
-import com.sevban.network.model.weather.Coord
+import com.sevban.network.source.remote.model.weather.Coord
 
 data class City(
     @SerializedName("coord")

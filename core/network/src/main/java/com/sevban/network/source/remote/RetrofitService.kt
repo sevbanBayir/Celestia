@@ -1,7 +1,7 @@
 package com.sevban.network.source.remote
 
-import com.sevban.network.model.forecast.ForecastDTO
-import com.sevban.network.model.weather.WeatherDTO
+import com.sevban.network.source.remote.model.forecast.ForecastDTO
+import com.sevban.network.source.remote.model.weather.WeatherDTO
 import com.sevban.network.util.Constants.METRIC
 import retrofit2.Response
 import retrofit2.http.GET

@@ -1,7 +1,7 @@
 package com.sevban.data.mapper
 
 import com.sevban.model.Weather
-import com.sevban.network.model.weather.WeatherDTO
+import com.sevban.network.source.remote.model.weather.WeatherDTO
 
 fun WeatherDTO.toWeather() = Weather(
     id = id ?: -1,

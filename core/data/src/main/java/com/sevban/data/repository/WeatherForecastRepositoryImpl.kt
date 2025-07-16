@@ -7,8 +7,8 @@ import com.sevban.data.mapper.toForecast
 import com.sevban.data.mapper.toWeather
 import com.sevban.model.Forecast
 import com.sevban.model.Weather
-import com.sevban.network.model.forecast.ForecastDTO
-import com.sevban.network.model.weather.WeatherDTO
+import com.sevban.network.source.remote.model.forecast.ForecastDTO
+import com.sevban.network.source.remote.model.weather.WeatherDTO
 import com.sevban.network.source.remote.WeatherRemoteDataSource
 import com.sevban.network.util.asRestApiCall
 import kotlinx.coroutines.flow.Flow
