@@ -10,11 +10,12 @@ android {
 
 dependencies {
     implementation(projects.core.common)
+    implementation(projects.core.model)
 
     // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     // Testing
     testImplementation(libs.bundles.testing)
