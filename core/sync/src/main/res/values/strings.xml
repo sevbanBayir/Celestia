@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sync notifications -->
+    <string name="sync_notification_title">Weather Sync</string>
+    <string name="sync_notification_description">Updating weather data in background</string>
+    <string name="sync_notification_success">Weather data updated successfully</string>
+    <string name="sync_notification_failed">Failed to update weather data</string>
+    
+    <!-- Sync error messages -->
+    <string name="sync_error_location_permission">Location permission required for weather sync</string>
+    <string name="sync_error_location_unavailable">Location unavailable - cannot sync weather data</string>
+    <string name="sync_error_network">Network error during weather sync</string>
+    <string name="sync_error_general">Weather sync failed. Will retry later.</string>
+    
+    <!-- Sync status messages -->
+    <string name="sync_status_starting">Starting weather sync…</string>
+    <string name="sync_status_complete">Weather sync completed</string>
+    <string name="sync_status_weather_success">Weather data synchronized</string>
+    <string name="sync_status_forecast_success">Forecast data synchronized</string>
+    
+    <!-- Data cleanup -->
+    <string name="cleanup_notification_title">Data Cleanup</string>
+    <string name="cleanup_notification_description">Cleaning up old weather data</string>
+    <string name="cleanup_success">Old weather data cleaned up</string>
+</resources> 

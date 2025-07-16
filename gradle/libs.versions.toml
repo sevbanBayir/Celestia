@@ -23,6 +23,7 @@ daggerHilt = "2.56.1"
 navigation = "2.9.0"
 hiltNavigation = "1.2.0"
 room = "2.7.1"
+workManager = "2.10.1"
 media3Exoplayer = "1.7.1"
 coreKtx = "1.6.1"
 runner = "1.6.2"
@@ -41,6 +42,9 @@ androidTools = "31.10.1"
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+
+androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
+androidx-work-hilt = { module = "androidx.hilt:hilt-work", version.ref = "hiltNavigation" }
 
 androidx-core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreKtx" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "runner" }

@@ -1,7 +1,7 @@
 package com.sevban.data.mapper
 
 import com.sevban.model.Weather
-import com.sevban.network.model.weather.WeatherDTO
+import com.sevban.network.source.remote.model.weather.WeatherDTO
 
 fun WeatherDTO.toWeather() = Weather(
     id = id ?: -1,
@@ -18,5 +18,6 @@ fun WeatherDTO.toWeather() = Weather(
     tempMin = main?.tempMin,
     visibility = visibility,
     windSpeed = wind?.speed,
-    rainVolume1h = rain?.h
+    rainVolume1h = rain?.h,
+    lastUpdated = System.currentTimeMillis() // Set current time for network data
 )

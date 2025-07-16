@@ -11,6 +11,7 @@
     <string name="serialization_error">Veri işleme hatası.</string>
     <string name="location_error">Konum kullanılamıyor.</string>
     <string name="connectivity_error">İnternet bağlantısı yok.</string>
+    <string name="no_data_available">Kullanılabilir veri yok. Yenilemek için kaydırın.</string>
     <string name="give_location_permission">Konum İznini Ver</string>
     <string name="choose_another_location">Konum Seç</string>
     <string name="or">Veya</string>
@@ -31,4 +32,10 @@
     <string name="heavy_rain">Şiddetli yağmur</string>
     <string name="next_rain_in">%s sonra yağmur</string>
     <string name="no_rain_expected">Yağmur beklenmemiyor</string>
+    
+    <!-- Data age formatting -->
+    <string name="data_age_just_now">Şimdi</string>
+    <string name="data_age_minutes">%s dk önce</string>
+    <string name="data_age_hours">%s sa önce</string>
+    <string name="data_age_days">%s gün önce</string>
 </resources> 

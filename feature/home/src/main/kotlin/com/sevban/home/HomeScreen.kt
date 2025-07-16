@@ -1,6 +1,5 @@
 package com.sevban.home
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,33 +48,29 @@ fun HomeScreen(
             .padding(horizontal = 16.dp)
             .background(MaterialTheme.colorScheme.background)
     ) {
-        AnimatedContent(
-            targetState = weatherState,
-            label = "WeatherAnimatedContent"
-        ) {
-            when (it) {
-                is WeatherState.NoLocationPermission -> NoLocationPermissionDialog(
-                    onGiveLocationPermissionClick = { onEvent(HomeScreenEvent.OnGiveLocationPermissionClick) },
-                    onChooseAnotherLocationClick = { onLocationClick(uiState.location) },
-                    onDismiss = { }
-                )
 
-                is WeatherState.Error -> ErrorScreen(
-                    whenErrorOccurred = whenErrorOccurred,
-                    failure = it.failure,
-                    onTryAgainClick = { onEvent(HomeScreenEvent.OnTryAgainClick) }
-                )
+        when (weatherState) {
+            is WeatherState.NoLocationPermission -> NoLocationPermissionDialog(
+                onGiveLocationPermissionClick = { onEvent(HomeScreenEvent.OnGiveLocationPermissionClick) },
+                onChooseAnotherLocationClick = { onLocationClick(uiState.location) },
+                onDismiss = { }
+            )
 
-                is WeatherState.Loading -> LoadingScreen(1f)
-                is WeatherState.Success -> WeatherContent(
-                    weather = it.weather,
-                    forecast = it.forecast,
-                    onLocationClick = { onLocationClick(uiState.location) },
-                    lastFetchedTime = uiState.lastFetchedTime,
-                    onFutureDaysForecastClick = { onFutureDaysForecastClick(uiState.location!!) },
-                    preferredLocationName = uiState.preferredLocationName
-                )
-            }
+            is WeatherState.Error -> ErrorScreen(
+                whenErrorOccurred = whenErrorOccurred,
+                failure = weatherState.failure,
+                onTryAgainClick = { onEvent(HomeScreenEvent.OnTryAgainClick) }
+            )
+
+            is WeatherState.Loading -> LoadingScreen(1f)
+            is WeatherState.Success -> WeatherContent(
+                weather = weatherState.weather,
+                forecast = weatherState.forecast,
+                onLocationClick = { onLocationClick(uiState.location) },
+                lastFetchedTime = uiState.lastFetchedTime,
+                onFutureDaysForecastClick = { onFutureDaysForecastClick(uiState.location!!) },
+                preferredLocationName = uiState.preferredLocationName
+            )
         }
     }
 
@@ -204,7 +199,9 @@ private fun createMockWeatherUiModel() = WeatherUiModel(
     pressureWithUnit = "1015 hPa",
     tempRange = "28° / 22°",
     rainInfo = "0.0 mm/h",
-    isRaining = false
+    isRaining = false,
+    lastUpdated = System.currentTimeMillis(),
+    dataAge = "5 min ago"
 )
 
 private fun createMockForecastUiModel() = ForecastUiModel(
@@ -218,7 +215,9 @@ private fun createMockForecastUiModel() = ForecastUiModel(
     todayHigh = "28",
     todayLow = "22",
     precipitationChance = "15%",
-    nextRainTime = ""
+    nextRainTime = "",
+    lastUpdated = System.currentTimeMillis(),
+    dataAge = "3 min ago"
 )
 
 private fun createMockForecastList() = listOf(

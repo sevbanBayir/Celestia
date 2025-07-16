@@ -86,4 +86,26 @@ class WeatherLocalizationService @Inject constructor(
         val month = date.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
         return "$dayOfMonth $month"
     }
+
+    /**
+     * Formats a timestamp to a human-readable cached data age string
+     */
+    fun formatDataAge(timestamp: Long): String {
+        val now = System.currentTimeMillis()
+        val ageInMinutes = (now - timestamp) / (60 * 1000)
+        
+        return when {
+            ageInMinutes < 1 -> context.getString(R.string.data_age_just_now)
+            ageInMinutes < 60 -> context.getString(R.string.data_age_minutes, ageInMinutes.toString())
+            else -> {
+                val ageInHours = ageInMinutes / 60
+                if (ageInHours < 24) {
+                    context.getString(R.string.data_age_hours, ageInHours.toString())
+                } else {
+                    val ageInDays = ageInHours / 24
+                    context.getString(R.string.data_age_days, ageInDays.toString())
+                }
+            }
+        }
+    }
 } 

@@ -106,7 +106,9 @@ private fun createMockWeatherUiModel() = WeatherUiModel(
     pressureWithUnit = "1015 hPa",
     tempRange = "28° / 22°",
     rainInfo = "0.0 mm/h",
-    isRaining = false
+    isRaining = false,
+    lastUpdated = System.currentTimeMillis(),
+    dataAge = "5 min ago"
 )
 
 private fun createMockForecastUiModel() = ForecastUiModel(
@@ -120,7 +122,9 @@ private fun createMockForecastUiModel() = ForecastUiModel(
     todayHigh = "28",
     todayLow = "22",
     precipitationChance = "15%",
-    nextRainTime = ""
+    nextRainTime = "",
+    lastUpdated = System.currentTimeMillis(),
+    dataAge = "3 min ago"
 )
 
 private fun createMockForecastList() = listOf(

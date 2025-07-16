@@ -94,7 +94,9 @@ private fun AdditionalWeatherInfoSectionPreview() {
                 pressureWithUnit = "1013 hPa",
                 tempRange = "26° / 18°",
                 rainInfo = "0.5 mm/h",
-                isRaining = true
+                isRaining = true,
+                lastUpdated = System.currentTimeMillis(),
+                dataAge = "2 min ago"
             ),
             forecast = ForecastUiModel(
                 city = "New York",
@@ -104,7 +106,9 @@ private fun AdditionalWeatherInfoSectionPreview() {
                 todayHigh = "26",
                 todayLow = "18",
                 precipitationChance = "70%",
-                nextRainTime = "In 2 hours"
+                nextRainTime = "In 2 hours",
+                lastUpdated = System.currentTimeMillis(),
+                dataAge = "4 min ago"
             )
         )
     }

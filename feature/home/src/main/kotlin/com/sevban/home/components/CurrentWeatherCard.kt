@@ -50,7 +50,8 @@ fun CurrentWeatherCard(
                     cityName = weather.cityName,
                     lastFetchedTime = lastFetchedTime,
                     onLocationClick = onLocationClick,
-                    preferredLocationName = preferredLocationName
+                    preferredLocationName = preferredLocationName,
+                    dataAge = weather.dataAge
                 )
 
                 TemperatureAndDescription(

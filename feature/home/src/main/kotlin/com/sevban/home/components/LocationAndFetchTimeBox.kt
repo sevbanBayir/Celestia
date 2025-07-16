@@ -1,6 +1,7 @@
 package com.sevban.home.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -22,7 +23,8 @@ fun LocationAndFetchTimeBox(
     lastFetchedTime: String,
     onLocationClick: () -> Unit,
     modifier: Modifier = Modifier,
-    preferredLocationName: String? = null // User's selected location name
+    preferredLocationName: String? = null, // User's selected location name
+    dataAge: String? = null // Data age (e.g., "5 min ago")
 ) {
     Box(
         modifier = modifier.fillMaxWidth(),
@@ -44,10 +46,14 @@ fun LocationAndFetchTimeBox(
             )
         }
 
-        /*        Text(
-                    text = stringResource(id = R.string.last_fetched_at, lastFetchedTime),
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    style = MaterialTheme.typography.labelSmall
-                )*/
+        // Show cached data age in the opposite corner
+        if (dataAge != null) {
+            Text(
+                text = dataAge,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
+        }
     }
 }

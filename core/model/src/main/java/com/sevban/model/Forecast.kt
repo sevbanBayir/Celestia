@@ -5,5 +5,6 @@ data class Forecast(
     val city: String?,
     val cnt: Int?,
     val message: Int?,
-    val temp: List<ForecastWeather>
+    val temp: List<ForecastWeather>,
+    val lastUpdated: Long = System.currentTimeMillis() // Timestamp when this data was last updated
 )
