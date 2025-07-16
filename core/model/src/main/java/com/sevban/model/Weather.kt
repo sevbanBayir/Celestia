@@ -15,5 +15,6 @@ data class Weather(
     val tempMin: Double?,
     val visibility: Int?,
     val windSpeed: Double?,
-    val rainVolume1h: Double? // Rain volume in last 1 hour (mm)
+    val rainVolume1h: Double?, // Rain volume in last 1 hour (mm)
+    val lastUpdated: Long = System.currentTimeMillis() // Timestamp when this data was last updated
 )

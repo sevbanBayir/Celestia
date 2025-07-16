@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sync notifications -->
+    <string name="sync_notification_title">Hava Durumu Senkronizasyonu</string>
+    <string name="sync_notification_description">Hava durumu verileri arka planda güncelleniyor</string>
+    <string name="sync_notification_success">Hava durumu verileri başarıyla güncellendi</string>
+    <string name="sync_notification_failed">Hava durumu verileri güncellenemedi</string>
+    
+    <!-- Sync error messages -->
+    <string name="sync_error_location_permission">Hava durumu senkronizasyonu için konum izni gereklidir</string>
+    <string name="sync_error_location_unavailable">Konum mevcut değil - hava durumu verileri senkronize edilemiyor</string>
+    <string name="sync_error_network">Hava durumu senkronizasyonu sırasında ağ hatası</string>
+    <string name="sync_error_general">Hava durumu senkronizasyonu başarısız. Daha sonra tekrar denenecek.</string>
+    
+    <!-- Sync status messages -->
+    <string name="sync_status_starting">Hava durumu senkronizasyonu başlatılıyor…</string>
+    <string name="sync_status_complete">Hava durumu senkronizasyonu tamamlandı</string>
+    <string name="sync_status_weather_success">Hava durumu verileri senkronize edildi</string>
+    <string name="sync_status_forecast_success">Tahmin verileri senkronize edildi</string>
+    
+    <!-- Data cleanup -->
+    <string name="cleanup_notification_title">Veri Temizleme</string>
+    <string name="cleanup_notification_description">Eski hava durumu verileri temizleniyor</string>
+    <string name="cleanup_success">Eski hava durumu verileri temizlendi</string>
+</resources> 

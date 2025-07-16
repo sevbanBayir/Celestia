@@ -156,7 +156,8 @@ private fun PlaceWeatherMarkerPreview() {
                 tempRange = "sit",
                 rainInfo = "dico",
                 isRaining = false,
-
+                lastUpdated = 1L,
+                dataAge = ""
                 )
         )
     }

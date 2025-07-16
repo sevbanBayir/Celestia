@@ -38,7 +38,9 @@ class WeatherUiModelMapper @Inject constructor(
             pressureWithUnit = localizationService.formatPressureWithUnit(weather.pressure?.toInt()),
             tempRange = localizationService.formatTempRange(weather.tempMin, weather.tempMax),
             rainInfo = localizationService.formatRainInfo(weather.rainVolume1h),
-            isRaining = localizationService.isRaining(weather.rainVolume1h)
+            isRaining = localizationService.isRaining(weather.rainVolume1h),
+            lastUpdated = weather.lastUpdated,
+            dataAge = localizationService.formatDataAge(weather.lastUpdated)
         )
     }
 

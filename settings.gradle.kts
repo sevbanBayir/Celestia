@@ -30,6 +30,7 @@ include(":core:designsystem")
 include(":core:common")
 include(":core:testing")
 include(":core:androidtest")
+include(":core:sync")
 
 include(":feature")
 include(":feature:home")

@@ -22,7 +22,8 @@ fun WeatherEntity.toDomain() = Weather(
     tempMin = this.tempMin,
     visibility = this.visibility,
     windSpeed = this.windSpeed,
-    rainVolume1h = this.rainVolume1h
+    rainVolume1h = this.rainVolume1h,
+    lastUpdated = this.lastUpdated
 )
 
 fun ForecastWithWeatherItems.toDomain() = Forecast(
@@ -30,7 +31,8 @@ fun ForecastWithWeatherItems.toDomain() = Forecast(
     city = this.forecast.city,
     cnt = this.forecast.cnt,
     message = this.forecast.message,
-    temp = this.weatherItems.map { it.toDomain() }
+    temp = this.weatherItems.map { it.toDomain() },
+    lastUpdated = this.forecast.lastUpdated
 )
 
 fun ForecastWeatherEntity.toDomain() = ForecastWeather(

@@ -32,4 +32,10 @@
     <string name="heavy_rain">Şiddetli yağmur</string>
     <string name="next_rain_in">%s sonra yağmur</string>
     <string name="no_rain_expected">Yağmur beklenmemiyor</string>
+    
+    <!-- Data age formatting -->
+    <string name="data_age_just_now">Şimdi</string>
+    <string name="data_age_minutes">%s dk önce</string>
+    <string name="data_age_hours">%s sa önce</string>
+    <string name="data_age_days">%s gün önce</string>
 </resources> 

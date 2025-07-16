@@ -18,5 +18,6 @@ fun WeatherDTO.toWeather() = Weather(
     tempMin = main?.tempMin,
     visibility = visibility,
     windSpeed = wind?.speed,
-    rainVolume1h = rain?.h
+    rainVolume1h = rain?.h,
+    lastUpdated = System.currentTimeMillis() // Set current time for network data
 )

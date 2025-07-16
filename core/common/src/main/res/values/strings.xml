@@ -32,4 +32,10 @@
     <string name="heavy_rain">Heavy rain</string>
     <string name="next_rain_in">Rain in %s</string>
     <string name="no_rain_expected">No rain expected</string>
+    
+    <!-- Data age formatting -->
+    <string name="data_age_just_now">Just now</string>
+    <string name="data_age_minutes">%s min ago</string>
+    <string name="data_age_hours">%s hr ago</string>
+    <string name="data_age_days">%s days ago</string>
 </resources>

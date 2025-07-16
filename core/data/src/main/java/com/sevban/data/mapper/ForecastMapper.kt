@@ -19,4 +19,5 @@ fun ForecastDTO.toForecast() = Forecast(
             rainVolume1h = it.rain?.h
         )
     } ?: emptyList(),
+    lastUpdated = System.currentTimeMillis() // Set current time for network data
 )

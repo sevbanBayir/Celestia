@@ -47,6 +47,7 @@ dependencies {
     implementation(projects.core.ui)
     implementation(projects.core.designsystem)
     implementation(projects.core.common)
+    implementation(projects.core.sync)
     implementation(projects.feature.home)
     implementation(projects.feature.location)
     implementation(projects.feature.detail)
