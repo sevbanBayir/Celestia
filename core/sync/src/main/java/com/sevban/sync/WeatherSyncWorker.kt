@@ -29,7 +29,6 @@ class WeatherSyncWorker @AssistedInject constructor(
 
     companion object {
         const val WORK_NAME = "weather_sync_work"
-        const val LOCATION_TIMEOUT_SECONDS = 30L
     }
 
     override suspend fun doWork(): Result = withContext(dispatcherProvider.ioDispatcher) {
@@ -38,7 +37,6 @@ class WeatherSyncWorker @AssistedInject constructor(
             
             // Get current location with timeout
             val location = locationClient.getLastKnownLocation()
-                .timeout(LOCATION_TIMEOUT_SECONDS.seconds)
                 .catch { exception ->
                     when (exception) {
                         is MissingLocationPermissionException -> {
@@ -52,12 +50,7 @@ class WeatherSyncWorker @AssistedInject constructor(
                     }
                 }
                 .first()
-            
-            if (location == null) {
-                syncLogger.logLocationUnavailable()
-                return@withContext Result.failure()
-            }
-            
+
             val latitude = location.latitude.toString()
             val longitude = location.longitude.toString()
             
