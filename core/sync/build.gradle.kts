@@ -19,7 +19,8 @@ dependencies {
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.work.hilt)
     ksp(libs.hilt.android.compiler)
-    
+    ksp("androidx.hilt:hilt-compiler:1.2.0")
+
     // Coroutines
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

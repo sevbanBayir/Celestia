@@ -62,6 +62,11 @@ dependencies {
     // Dagger-Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    ksp("androidx.hilt:hilt-compiler:1.2.0")
+
+    // WorkManager
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.work.hilt)
 
     // Testing
     testImplementation(libs.bundles.testing)
