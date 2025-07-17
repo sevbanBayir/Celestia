@@ -25,4 +25,8 @@
     <string name="precipitation_label">Yağış</string>
     <string name="cd_rain_icon">Yağmur simgesi</string>
     <string name="cd_umbrella_icon">Şemsiye simgesi</string>
+
+    <string name="cd_location_services_off_icon">Konum servisleri devre dışı simgesi</string>
+    <string name="location_services_disabled_error">Konum servisleri kapalı. Lütfen özelliği kullanmak için etkinleştirin.</string>
+    <string name="enable_location_services">Konum Servislerini Etkinleştir</string>
 </resources> 

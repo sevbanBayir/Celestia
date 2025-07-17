@@ -1,23 +1,25 @@
 package com.sevban.home
 
-import android.Manifest
-import android.os.Build
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sevban.common.extensions.openAppSettings
+import com.sevban.common.location.AndroidLocationObserver.Companion.promptEnableLocationIfNeeded
 import com.sevban.common.model.ErrorType
 import com.sevban.common.model.Failure
 import com.sevban.designsystem.theme.ComposeScaffoldProjectTheme
+import com.sevban.home.components.LocationServicesDisabledDialog
 import com.sevban.home.components.NoLocationPermissionDialog
 import com.sevban.home.components.WeatherContent
 import com.sevban.home.mapper.ChartData
@@ -31,7 +33,6 @@ import com.sevban.ui.components.PermissionRequester
 import com.sevban.ui.model.ForecastWeatherUi
 import com.sevban.ui.model.LocationArgument
 import com.sevban.ui.model.WeatherUiModel
-import androidx.core.content.ContextCompat
 
 // TODO: FIX VIDEO ASSET DELIVERY
 // TODO: FIX CACHING
@@ -39,6 +40,7 @@ import androidx.core.content.ContextCompat
 fun HomeScreen(
     weatherState: WeatherState,
     uiState: WeatherScreenUiState,
+    isRefreshing: Boolean,
     permissionTrigger: Unit?,
     onEvent: (HomeScreenEvent) -> Unit,
     onLocationClick: (LocationArgument?) -> Unit,
@@ -46,7 +48,14 @@ fun HomeScreen(
     whenErrorOccurred: suspend (Throwable, String?) -> Unit
 ) {
     val context = LocalContext.current
-
+    val activity = context as? Activity
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            onEvent(HomeScreenEvent.OnLocationServicesEnabled)
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -57,6 +66,20 @@ fun HomeScreen(
         when (weatherState) {
             is WeatherState.NoLocationPermission -> NoLocationPermissionDialog(
                 onGiveLocationPermissionClick = { onEvent(HomeScreenEvent.OnGiveLocationPermissionClick) },
+                onChooseAnotherLocationClick = { onLocationClick(uiState.location) },
+                onDismiss = { }
+            )
+
+            is WeatherState.LocationServicesDisabled -> LocationServicesDisabledDialog(
+                onEnableLocationServicesClick = {
+                    activity?.promptEnableLocationIfNeeded(
+                        onResolutionRequired = { intentSender ->
+                            launcher.launch(IntentSenderRequest.Builder(intentSender).build())
+                        },
+                        onAlreadyEnabled = { },
+                        onNotResolvable = { _ -> }
+                    )
+                },
                 onChooseAnotherLocationClick = { onLocationClick(uiState.location) },
                 onDismiss = { }
             )
@@ -72,9 +95,10 @@ fun HomeScreen(
                 weather = weatherState.weather,
                 forecast = weatherState.forecast,
                 onLocationClick = { onLocationClick(uiState.location) },
-                lastFetchedTime = uiState.lastFetchedTime,
                 onFutureDaysForecastClick = { onFutureDaysForecastClick(uiState.location!!) },
-                preferredLocationName = uiState.preferredLocationName
+                preferredLocationName = uiState.preferredLocationName,
+                isRefreshing = isRefreshing,
+                onRefresh = { onEvent(HomeScreenEvent.OnTryAgainClick) }
             )
         }
     }
@@ -118,7 +142,8 @@ private fun HomeScreenSuccessPreview() {
             onEvent = { },
             onLocationClick = { },
             onFutureDaysForecastClick = { },
-            whenErrorOccurred = { _, _ -> }
+            whenErrorOccurred = { _, _ -> },
+            isRefreshing = false
         )
     }
 }
@@ -134,7 +159,8 @@ private fun HomeScreenLoadingPreview() {
             onEvent = { },
             onLocationClick = { },
             onFutureDaysForecastClick = { },
-            whenErrorOccurred = { _, _ -> }
+            whenErrorOccurred = { _, _ -> },
+            isRefreshing = false
         )
     }
 }
@@ -154,7 +180,8 @@ private fun HomeScreenErrorPreview() {
             onEvent = { },
             onLocationClick = { },
             onFutureDaysForecastClick = { },
-            whenErrorOccurred = { _, _ -> }
+            whenErrorOccurred = { _, _ -> },
+            isRefreshing = false
         )
     }
 }
@@ -170,7 +197,8 @@ private fun HomeScreenNoLocationPermissionPreview() {
             onEvent = { },
             onLocationClick = { },
             onFutureDaysForecastClick = { },
-            whenErrorOccurred = { _, _ -> }
+            whenErrorOccurred = { _, _ -> },
+            isRefreshing = false
         )
     }
 }
@@ -206,7 +234,6 @@ private fun createMockWeatherUiModel() = WeatherUiModel(
     rainInfo = "0.0 mm/h",
     isRaining = false,
     lastUpdated = System.currentTimeMillis(),
-    dataAge = "5 min ago"
 )
 
 private fun createMockForecastUiModel() = ForecastUiModel(
@@ -222,7 +249,6 @@ private fun createMockForecastUiModel() = ForecastUiModel(
     precipitationChance = "15%",
     nextRainTime = "",
     lastUpdated = System.currentTimeMillis(),
-    dataAge = "3 min ago"
 )
 
 private fun createMockForecastList() = listOf(

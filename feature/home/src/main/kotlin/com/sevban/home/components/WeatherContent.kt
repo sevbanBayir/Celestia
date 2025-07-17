@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,11 +19,13 @@ import com.sevban.ui.components.ForecastRow
 import com.sevban.ui.model.ForecastWeatherUi
 import com.sevban.ui.model.WeatherUiModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherContent(
     weather: WeatherUiModel,
     forecast: ForecastUiModel,
-    lastFetchedTime: String,
+    onRefresh: () -> Unit,
+    isRefreshing: Boolean,
     onLocationClick: () -> Unit,
     onFutureDaysForecastClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -28,34 +33,39 @@ fun WeatherContent(
 ) {
     val scrollState = rememberScrollState()
 
-    Column(
-        modifier = modifier.verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
+    PullToRefreshBox(
+        onRefresh = onRefresh,
+        isRefreshing = isRefreshing,
     ) {
-        CurrentWeatherCard(
-            weather = weather,
-            onLocationClick = onLocationClick,
-            forecast = forecast,
-            lastFetchedTime = lastFetchedTime,
-            preferredLocationName = preferredLocationName
-        )
+        Column(
+            modifier = modifier.verticalScroll(state = scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CurrentWeatherCard(
+                weather = weather,
+                onLocationClick = onLocationClick,
+                forecast = forecast,
+                preferredLocationName = preferredLocationName
+            )
 
-        HeaderAndMoreBox(
-            onFutureDaysForecastClick = onFutureDaysForecastClick,
-        )
+            HeaderAndMoreBox(
+                onFutureDaysForecastClick = onFutureDaysForecastClick,
+            )
 
-        ForecastRow(
-            forecast = forecast.next24Hours,
-        )
+            ForecastRow(
+                forecast = forecast.next24Hours,
+            )
 
-        // NEW: Additional weather features section
-        AdditionalWeatherInfoSection(
-            weather = weather,
-            forecast = forecast,
-            modifier = Modifier.padding(top = 16.dp)
-        )
+            // NEW: Additional weather features section
+            AdditionalWeatherInfoSection(
+                weather = weather,
+                forecast = forecast,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+        }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
@@ -64,9 +74,10 @@ private fun WeatherContentPreview() {
         WeatherContent(
             weather = createMockWeatherUiModel(),
             forecast = createMockForecastUiModel(),
-            lastFetchedTime = "Last updated: 12:30 PM",
             onLocationClick = { },
-            onFutureDaysForecastClick = { }
+            onFutureDaysForecastClick = { },
+            onRefresh = { },
+            isRefreshing = false
         )
     }
 }
@@ -78,10 +89,11 @@ private fun WeatherContentWithLocationNamePreview() {
         WeatherContent(
             weather = createMockWeatherUiModel(),
             forecast = createMockForecastUiModel(),
-            lastFetchedTime = "Last updated: 2:15 PM",
             onLocationClick = { },
             onFutureDaysForecastClick = { },
-            preferredLocationName = "Central Park"
+            preferredLocationName = "Central Park",
+            onRefresh = { },
+            isRefreshing = false
         )
     }
 }
@@ -107,8 +119,7 @@ private fun createMockWeatherUiModel() = WeatherUiModel(
     tempRange = "28° / 22°",
     rainInfo = "0.0 mm/h",
     isRaining = false,
-    lastUpdated = System.currentTimeMillis(),
-    dataAge = "5 min ago"
+    lastUpdated = System.currentTimeMillis()
 )
 
 private fun createMockForecastUiModel() = ForecastUiModel(
@@ -123,8 +134,7 @@ private fun createMockForecastUiModel() = ForecastUiModel(
     todayLow = "22",
     precipitationChance = "15%",
     nextRainTime = "",
-    lastUpdated = System.currentTimeMillis(),
-    dataAge = "3 min ago"
+    lastUpdated = System.currentTimeMillis()
 )
 
 private fun createMockForecastList() = listOf(

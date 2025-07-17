@@ -25,4 +25,8 @@
     <string name="precipitation_label">Precipitation</string>
     <string name="cd_rain_icon">Rain icon</string>
     <string name="cd_umbrella_icon">Umbrella icon</string>
+
+    <string name="cd_location_services_off_icon">Location services disabled icon</string>
+    <string name="location_services_disabled_error">Location services are turned off. Please enable them to use this feature.</string>
+    <string name="enable_location_services">Enable Location Services</string>
 </resources>

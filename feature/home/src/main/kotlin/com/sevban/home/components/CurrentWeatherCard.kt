@@ -19,7 +19,6 @@ import com.sevban.ui.model.WeatherUiModel
 fun CurrentWeatherCard(
     weather: WeatherUiModel,
     forecast: ForecastUiModel,
-    lastFetchedTime: String,
     onLocationClick: () -> Unit,
     modifier: Modifier = Modifier,
     preferredLocationName: String? = null
@@ -48,10 +47,9 @@ fun CurrentWeatherCard(
                 LocationAndFetchTimeBox(
                     modifier = Modifier.padding(12.dp),
                     cityName = weather.cityName,
-                    lastFetchedTime = lastFetchedTime,
+                    lastUpdated = weather.lastUpdated,
                     onLocationClick = onLocationClick,
-                    preferredLocationName = preferredLocationName,
-                    dataAge = weather.dataAge
+                    preferredLocationName = preferredLocationName
                 )
 
                 TemperatureAndDescription(

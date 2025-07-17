@@ -5,7 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.sevban.common.helper.DispatcherProvider
-import com.sevban.common.location.LocationClient
+import com.sevban.common.location.LocationObserver
 import com.sevban.common.location.MissingLocationPermissionException
 import com.sevban.data.repository.WeatherForecastRepository
 import com.sevban.sync.util.SyncLogger
@@ -22,7 +22,7 @@ class WeatherSyncWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val weatherForecastRepository: WeatherForecastRepository,
-    private val locationClient: LocationClient,
+    private val locationClient: LocationObserver,
     private val dispatcherProvider: DispatcherProvider,
     private val syncLogger: SyncLogger
 ) : CoroutineWorker(context, workerParams) {
@@ -51,8 +51,8 @@ class WeatherSyncWorker @AssistedInject constructor(
                 }
                 .first()
 
-            val latitude = location.latitude.toString()
-            val longitude = location.longitude.toString()
+            val latitude = location?.latitude.toString()
+            val longitude = location?.longitude.toString()
             
             syncLogger.logSyncLocation(latitude, longitude)
             

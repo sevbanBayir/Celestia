@@ -4,8 +4,6 @@ import android.content.Context
 import com.sevban.common.helper.LocaleHelper
 import com.sevban.common.helper.WeatherLocalizationService
 import com.sevban.common.location.AndroidLocationObserver
-import com.sevban.common.location.LocationClient
-import com.sevban.common.location.LocationClientImpl
 import com.sevban.common.location.LocationObserver
 import dagger.Module
 import dagger.Provides
@@ -17,11 +15,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object LocationModule {
-
-    @Provides
-    @Singleton
-    fun provideLocationClient(@ApplicationContext context: Context): LocationClient =
-        LocationClientImpl(context)
 
     @Provides
     @Singleton

@@ -57,7 +57,7 @@ fun AdditionalWeatherInfoSection(
                     .weight(1f)
                     .fillMaxHeight()
             )
-            
+
             PrecipitationCard(
                 precipitationChance = forecast.precipitationChance,
                 nextRainTime = forecast.nextRainTime,
@@ -95,8 +95,7 @@ private fun AdditionalWeatherInfoSectionPreview() {
                 tempRange = "26° / 18°",
                 rainInfo = "0.5 mm/h",
                 isRaining = true,
-                lastUpdated = System.currentTimeMillis(),
-                dataAge = "2 min ago"
+                lastUpdated = System.currentTimeMillis()
             ),
             forecast = ForecastUiModel(
                 city = "New York",
@@ -108,7 +107,6 @@ private fun AdditionalWeatherInfoSectionPreview() {
                 precipitationChance = "70%",
                 nextRainTime = "In 2 hours",
                 lastUpdated = System.currentTimeMillis(),
-                dataAge = "4 min ago"
             )
         )
     }
