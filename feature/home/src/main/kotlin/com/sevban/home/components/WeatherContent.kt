@@ -20,7 +20,6 @@ import com.sevban.ui.model.WeatherUiModel
 fun WeatherContent(
     weather: WeatherUiModel,
     forecast: ForecastUiModel,
-    lastFetchedTime: String,
     onLocationClick: () -> Unit,
     onFutureDaysForecastClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -36,7 +35,6 @@ fun WeatherContent(
             weather = weather,
             onLocationClick = onLocationClick,
             forecast = forecast,
-            lastFetchedTime = lastFetchedTime,
             preferredLocationName = preferredLocationName
         )
 
@@ -64,7 +62,6 @@ private fun WeatherContentPreview() {
         WeatherContent(
             weather = createMockWeatherUiModel(),
             forecast = createMockForecastUiModel(),
-            lastFetchedTime = "Last updated: 12:30 PM",
             onLocationClick = { },
             onFutureDaysForecastClick = { }
         )
@@ -78,7 +75,6 @@ private fun WeatherContentWithLocationNamePreview() {
         WeatherContent(
             weather = createMockWeatherUiModel(),
             forecast = createMockForecastUiModel(),
-            lastFetchedTime = "Last updated: 2:15 PM",
             onLocationClick = { },
             onFutureDaysForecastClick = { },
             preferredLocationName = "Central Park"
@@ -107,8 +103,7 @@ private fun createMockWeatherUiModel() = WeatherUiModel(
     tempRange = "28° / 22°",
     rainInfo = "0.0 mm/h",
     isRaining = false,
-    lastUpdated = System.currentTimeMillis(),
-    dataAge = "5 min ago"
+    lastUpdated = System.currentTimeMillis()
 )
 
 private fun createMockForecastUiModel() = ForecastUiModel(
@@ -123,8 +118,7 @@ private fun createMockForecastUiModel() = ForecastUiModel(
     todayLow = "22",
     precipitationChance = "15%",
     nextRainTime = "",
-    lastUpdated = System.currentTimeMillis(),
-    dataAge = "3 min ago"
+    lastUpdated = System.currentTimeMillis()
 )
 
 private fun createMockForecastList() = listOf(

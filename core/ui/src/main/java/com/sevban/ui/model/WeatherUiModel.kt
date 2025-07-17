@@ -29,8 +29,7 @@ data class WeatherUiModel(
     val tempRange: String,
     val rainInfo: String, // Formatted rain information
     val isRaining: Boolean,
-    val lastUpdated: Long, // Timestamp when this weather data was last updated
-    val dataAge: String // Formatted data age (e.g., "5 min ago")
+    val lastUpdated: Long // Timestamp when this weather data was last updated
 )
 
 fun Weather.toWeatherUiModel() = WeatherUiModel(
@@ -55,8 +54,7 @@ fun Weather.toWeatherUiModel() = WeatherUiModel(
     tempRange = "",
     rainInfo = "",
     isRaining = false,
-    lastUpdated = lastUpdated,
-    dataAge = "" // Default value for tests
+    lastUpdated = lastUpdated
 )
 
 fun createWeatherIconURL(icon: String?): String {

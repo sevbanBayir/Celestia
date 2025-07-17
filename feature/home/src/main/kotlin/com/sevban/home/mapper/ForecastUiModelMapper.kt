@@ -43,7 +43,6 @@ class ForecastUiModelMapper @Inject constructor(
             precipitationChance = forecast.getHighestPrecipitationChance(),
             nextRainTime = forecast.getNextRainTime(),
             lastUpdated = forecast.lastUpdated,
-            dataAge = localizationService.formatDataAge(forecast.lastUpdated)
         )
     }
 

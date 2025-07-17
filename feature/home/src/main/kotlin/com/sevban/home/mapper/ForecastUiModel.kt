@@ -20,8 +20,7 @@ data class ForecastUiModel(
     val todayLow: String,
     val precipitationChance: String, // Today's highest precipitation probability formatted
     val nextRainTime: String, // Next expected rain time
-    val lastUpdated: Long, // Timestamp when this forecast data was last updated
-    val dataAge: String // Formatted data age (e.g., "5 min ago")
+    val lastUpdated: Long // Timestamp when this forecast data was last updated
 )
 
 data class ChartData(
@@ -70,8 +69,6 @@ fun Forecast.toForecastUiModel(): ForecastUiModel {
         todayLow = "",
         precipitationChance = "",
         nextRainTime = "",
-        lastUpdated = lastUpdated,
-        dataAge = "" // Default value for tests
+        lastUpdated = lastUpdated
     )
 }
-

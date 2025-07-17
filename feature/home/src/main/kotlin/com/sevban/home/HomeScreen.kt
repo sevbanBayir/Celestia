@@ -1,15 +1,11 @@
 package com.sevban.home
 
-import android.Manifest
-import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +27,6 @@ import com.sevban.ui.components.PermissionRequester
 import com.sevban.ui.model.ForecastWeatherUi
 import com.sevban.ui.model.LocationArgument
 import com.sevban.ui.model.WeatherUiModel
-import androidx.core.content.ContextCompat
 
 // TODO: FIX VIDEO ASSET DELIVERY
 // TODO: FIX CACHING
@@ -72,7 +67,6 @@ fun HomeScreen(
                 weather = weatherState.weather,
                 forecast = weatherState.forecast,
                 onLocationClick = { onLocationClick(uiState.location) },
-                lastFetchedTime = uiState.lastFetchedTime,
                 onFutureDaysForecastClick = { onFutureDaysForecastClick(uiState.location!!) },
                 preferredLocationName = uiState.preferredLocationName
             )
@@ -206,7 +200,6 @@ private fun createMockWeatherUiModel() = WeatherUiModel(
     rainInfo = "0.0 mm/h",
     isRaining = false,
     lastUpdated = System.currentTimeMillis(),
-    dataAge = "5 min ago"
 )
 
 private fun createMockForecastUiModel() = ForecastUiModel(
@@ -222,7 +215,6 @@ private fun createMockForecastUiModel() = ForecastUiModel(
     precipitationChance = "15%",
     nextRainTime = "",
     lastUpdated = System.currentTimeMillis(),
-    dataAge = "3 min ago"
 )
 
 private fun createMockForecastList() = listOf(

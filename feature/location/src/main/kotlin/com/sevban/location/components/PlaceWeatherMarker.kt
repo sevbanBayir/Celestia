@@ -157,8 +157,7 @@ private fun PlaceWeatherMarkerPreview() {
                 rainInfo = "dico",
                 isRaining = false,
                 lastUpdated = 1L,
-                dataAge = ""
-                )
+            )
         )
     }
 }
