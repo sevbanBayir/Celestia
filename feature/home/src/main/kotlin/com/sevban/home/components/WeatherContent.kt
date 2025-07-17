@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,9 +27,13 @@ fun WeatherContent(
     preferredLocationName: String? = null
 ) {
     val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
 
     Column(
-        modifier = modifier.verticalScroll(scrollState),
+        modifier = modifier.verticalScroll(
+            overscrollEffect = OffsetOverscrollEffect(scope),
+            state = scrollState,
+        ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CurrentWeatherCard(
@@ -54,6 +59,7 @@ fun WeatherContent(
         )
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
