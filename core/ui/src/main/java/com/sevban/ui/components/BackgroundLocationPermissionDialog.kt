@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import com.sevban.ui.R
 
 @Composable
-fun PermissionAlertDialog(
+fun BackgroundLocationPermissionDialog(
     onConfirmed: () -> Unit,
     onDismissed: () -> Unit,
 ) {
@@ -17,19 +17,19 @@ fun PermissionAlertDialog(
         onDismissRequest = onDismissed,
         confirmButton = {
             Button(onClick = onConfirmed) {
-                Text(text = stringResource(R.string.permission_dialog_confirm))
+                Text(text = stringResource(R.string.background_permission_dialog_confirm))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissed) {
-                Text(text = stringResource(R.string.permission_dialog_dismiss))
+                Text(text = stringResource(R.string.background_permission_dialog_dismiss))
             }
         },
         title = {
-            Text(text = stringResource(R.string.permission_dialog_title))
+            Text(text = stringResource(R.string.background_permission_dialog_title))
         },
         text = {
-            Text(text = stringResource(R.string.permission_dialog_message))
+            Text(text = stringResource(R.string.background_permission_dialog_message))
         }
     )
 }

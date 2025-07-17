@@ -19,12 +19,12 @@ class SyncManager @Inject constructor(
 ) {
     
     companion object {
-        private const val SYNC_INTERVAL_HOURS = 3L
-        private const val SYNC_FLEX_INTERVAL_HOURS = 1L
+        private const val SYNC_INTERVAL_MINS = 15L
+        private const val SYNC_FLEX_INTERVAL_MINS = 5L
         private const val CLEANUP_INTERVAL_HOURS = 24L // Daily cleanup
         private const val CLEANUP_FLEX_INTERVAL_HOURS = 2L
     }
-    
+
     private val workManager by lazy { WorkManager.getInstance(context) }
     
     /**
@@ -42,10 +42,10 @@ class SyncManager @Inject constructor(
                 .build()
             
             val periodicSyncRequest = PeriodicWorkRequestBuilder<WeatherSyncWorker>(
-                repeatInterval = SYNC_INTERVAL_HOURS,
-                repeatIntervalTimeUnit = TimeUnit.HOURS,
-                flexTimeInterval = SYNC_FLEX_INTERVAL_HOURS,
-                flexTimeIntervalUnit = TimeUnit.HOURS
+                repeatInterval = SYNC_INTERVAL_MINS,
+                repeatIntervalTimeUnit = TimeUnit.MINUTES,
+                flexTimeInterval = SYNC_FLEX_INTERVAL_MINS,
+                flexTimeIntervalUnit = TimeUnit.MINUTES
             )
                 .setConstraints(syncConstraints)
                 .addTag(WeatherSyncWorker.WORK_NAME)

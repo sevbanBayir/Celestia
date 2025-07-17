@@ -21,6 +21,10 @@ fun Context.hasFineLocationPermission(): Boolean = checkSelfPermission(
     Manifest.permission.ACCESS_FINE_LOCATION
 ) == PackageManager.PERMISSION_GRANTED
 
+fun Context.hasBackgroundLocationPermission(): Boolean = checkSelfPermission(
+    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+) == PackageManager.PERMISSION_GRANTED
+
 fun Context.hasCoarseLocationPermission(): Boolean = checkSelfPermission(
     Manifest.permission.ACCESS_COARSE_LOCATION
 ) == PackageManager.PERMISSION_GRANTED

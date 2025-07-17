@@ -1,7 +1,6 @@
 package com.sevban.sync.di
 
 import android.content.Context
-import androidx.hilt.work.HiltWorkerFactory
 import com.sevban.sync.SyncManager
 import com.sevban.sync.util.SyncLogger
 import dagger.Module
@@ -28,14 +27,5 @@ object SyncModule {
         syncLogger: SyncLogger
     ): SyncManager {
         return SyncManager(context, syncLogger)
-    }
-    
-    @Provides
-    @Singleton
-    fun provideWorkManagerInitializer(
-        @ApplicationContext context: Context,
-        workerFactory: HiltWorkerFactory
-    ): WorkManagerInitializer {
-        return WorkManagerInitializer(context, workerFactory)
     }
 } 
