@@ -55,16 +55,18 @@ fun PermissionRequester(
         }
     )
 
-
-
-    LaunchedEffect(key1 = askForBgLocationPermission) {
-        if (askForBgLocationPermission) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+    if (askForBgLocationPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        BackgroundLocationPermissionDialog(
+            onDismissed = {
+                askForBgLocationPermission = false
+            },
+            onConfirmed = {
                 singlePermissionLauncher.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                askForBgLocationPermission = false
             }
-            askForBgLocationPermission = false
-        }
+        )
     }
+
 
     LaunchedEffect(key1 = true) {
         activityResultLauncher.launch(permissions)

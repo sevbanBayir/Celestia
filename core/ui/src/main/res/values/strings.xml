@@ -14,5 +14,9 @@
     <string name="permission_dialog_title">We need your permission</string>
     <string name="permission_dialog_message">To provide related information about weather we have to know your location</string>
     <string name="permission_dialog_confirm">Go To Settings</string>
-    <string name="permission_dialog_dismiss">I won't let you know</string>
+    <string name="permission_dialog_dismiss">I won\'t let you know</string>
+    <string name="background_permission_dialog_title">Background Updates</string>
+    <string name="background_permission_dialog_message">We need your location permission for weather updates in the background</string>
+    <string name="background_permission_dialog_confirm">Allow</string>
+    <string name="background_permission_dialog_dismiss">I don\'t want background updates</string>
 </resources>
