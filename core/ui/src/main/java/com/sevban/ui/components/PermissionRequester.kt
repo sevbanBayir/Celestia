@@ -56,6 +56,7 @@ fun PermissionRequester(
     )
 
 
+
     LaunchedEffect(key1 = askForBgLocationPermission) {
         if (askForBgLocationPermission) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

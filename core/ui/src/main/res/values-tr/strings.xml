@@ -11,4 +11,8 @@
     <string name="cd_wind_icon">Rüzgar simgesi</string>
     <string name="cd_humidity_icon">Nem simgesi</string>
     <string name="cd_visibility_icon">Görüş mesafesi simgesi</string>
+    <string name="permission_dialog_title">İzninize ihtiyacımız var</string>
+    <string name="permission_dialog_message">Hava durumu ile ilgili bilgi verebilmemiz için konumunuzu bilmemiz gerekiyor</string>
+    <string name="permission_dialog_confirm">Ayarlar'a Git</string>
+    <string name="permission_dialog_dismiss">Sana haber vermeyeceğim</string>
 </resources> 

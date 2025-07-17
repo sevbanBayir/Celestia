@@ -5,6 +5,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.sevban.ui.R
 
 @Composable
 fun PermissionAlertDialog(
@@ -15,19 +17,19 @@ fun PermissionAlertDialog(
         onDismissRequest = onDismissed,
         confirmButton = {
             Button(onClick = onConfirmed) {
-                Text(text = "Go To Settings")
+                Text(text = stringResource(R.string.permission_dialog_confirm))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissed) {
-                Text(text = "I won't let you know")
+                Text(text = stringResource(R.string.permission_dialog_dismiss))
             }
         },
         title = {
-            Text(text = "We need your permission")
+            Text(text = stringResource(R.string.permission_dialog_title))
         },
         text = {
-            Text(text = "To provide related information about weather we have to know your location")
+            Text(text = stringResource(R.string.permission_dialog_message))
         }
     )
 }
