@@ -24,6 +24,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
@@ -31,6 +32,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -58,6 +60,9 @@ class HomeViewModel @Inject constructor(
 
     private val savedLocation = savedStateHandle.toRoute<Home>(typeMap = Home.typeMap).location
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
     val weatherState = retryTrigger.receiveAsFlow()
         .onStart { emit(Unit) }
         .flatMapLatest {
@@ -67,13 +72,16 @@ class HomeViewModel @Inject constructor(
                     combine(
                         getWeatherUseCase.execute(
                             lat = location.latitude.toString(),
-                            long = location.longitude.toString()
+                            long = location.longitude.toString(),
+                            fromNetwork = _isRefreshing.value
                         ),
                         getForecastUseCase.execute(
                             lat = location.latitude.toString(),
-                            long = location.longitude.toString()
+                            long = location.longitude.toString(),
+                            fromNetwork = _isRefreshing.value
                         ),
                         transform = { weather, forecast ->
+                            _isRefreshing.update { false }
                             WeatherState.Success(
                                 weather = weatherMapper.mapToUiModel(weather),
                                 forecast = forecastMapper.mapToUiModel(forecast)
@@ -150,6 +158,7 @@ class HomeViewModel @Inject constructor(
             is HomeScreenEvent.OnTryAgainClick,
             is HomeScreenEvent.OnLocationServicesEnabled,
             is HomeScreenEvent.OnLocationPermissionGranted -> {
+                _isRefreshing.update { true }
                 retryTrigger.trySend(Unit)
             }
         }

@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -17,46 +19,50 @@ import com.sevban.ui.components.ForecastRow
 import com.sevban.ui.model.ForecastWeatherUi
 import com.sevban.ui.model.WeatherUiModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherContent(
     weather: WeatherUiModel,
     forecast: ForecastUiModel,
+    onRefresh: () -> Unit,
+    isRefreshing: Boolean,
     onLocationClick: () -> Unit,
     onFutureDaysForecastClick: () -> Unit,
     modifier: Modifier = Modifier,
     preferredLocationName: String? = null
 ) {
     val scrollState = rememberScrollState()
-    val scope = rememberCoroutineScope()
 
-    Column(
-        modifier = modifier.verticalScroll(
-            overscrollEffect = OffsetOverscrollEffect(scope),
-            state = scrollState,
-        ),
-        horizontalAlignment = Alignment.CenterHorizontally
+    PullToRefreshBox(
+        onRefresh = onRefresh,
+        isRefreshing = isRefreshing,
     ) {
-        CurrentWeatherCard(
-            weather = weather,
-            onLocationClick = onLocationClick,
-            forecast = forecast,
-            preferredLocationName = preferredLocationName
-        )
+        Column(
+            modifier = modifier.verticalScroll(state = scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CurrentWeatherCard(
+                weather = weather,
+                onLocationClick = onLocationClick,
+                forecast = forecast,
+                preferredLocationName = preferredLocationName
+            )
 
-        HeaderAndMoreBox(
-            onFutureDaysForecastClick = onFutureDaysForecastClick,
-        )
+            HeaderAndMoreBox(
+                onFutureDaysForecastClick = onFutureDaysForecastClick,
+            )
 
-        ForecastRow(
-            forecast = forecast.next24Hours,
-        )
+            ForecastRow(
+                forecast = forecast.next24Hours,
+            )
 
-        // NEW: Additional weather features section
-        AdditionalWeatherInfoSection(
-            weather = weather,
-            forecast = forecast,
-            modifier = Modifier.padding(top = 16.dp)
-        )
+            // NEW: Additional weather features section
+            AdditionalWeatherInfoSection(
+                weather = weather,
+                forecast = forecast,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+        }
     }
 }
 
@@ -69,7 +75,9 @@ private fun WeatherContentPreview() {
             weather = createMockWeatherUiModel(),
             forecast = createMockForecastUiModel(),
             onLocationClick = { },
-            onFutureDaysForecastClick = { }
+            onFutureDaysForecastClick = { },
+            onRefresh = { },
+            isRefreshing = false
         )
     }
 }
@@ -83,7 +91,9 @@ private fun WeatherContentWithLocationNamePreview() {
             forecast = createMockForecastUiModel(),
             onLocationClick = { },
             onFutureDaysForecastClick = { },
-            preferredLocationName = "Central Park"
+            preferredLocationName = "Central Park",
+            onRefresh = { },
+            isRefreshing = false
         )
     }
 }

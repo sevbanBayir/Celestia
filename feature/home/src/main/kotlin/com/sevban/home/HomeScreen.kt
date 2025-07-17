@@ -40,6 +40,7 @@ import com.sevban.ui.model.WeatherUiModel
 fun HomeScreen(
     weatherState: WeatherState,
     uiState: WeatherScreenUiState,
+    isRefreshing: Boolean,
     permissionTrigger: Unit?,
     onEvent: (HomeScreenEvent) -> Unit,
     onLocationClick: (LocationArgument?) -> Unit,
@@ -95,7 +96,9 @@ fun HomeScreen(
                 forecast = weatherState.forecast,
                 onLocationClick = { onLocationClick(uiState.location) },
                 onFutureDaysForecastClick = { onFutureDaysForecastClick(uiState.location!!) },
-                preferredLocationName = uiState.preferredLocationName
+                preferredLocationName = uiState.preferredLocationName,
+                isRefreshing = isRefreshing,
+                onRefresh = { onEvent(HomeScreenEvent.OnTryAgainClick) }
             )
         }
     }
@@ -139,7 +142,8 @@ private fun HomeScreenSuccessPreview() {
             onEvent = { },
             onLocationClick = { },
             onFutureDaysForecastClick = { },
-            whenErrorOccurred = { _, _ -> }
+            whenErrorOccurred = { _, _ -> },
+            isRefreshing = false
         )
     }
 }
@@ -155,7 +159,8 @@ private fun HomeScreenLoadingPreview() {
             onEvent = { },
             onLocationClick = { },
             onFutureDaysForecastClick = { },
-            whenErrorOccurred = { _, _ -> }
+            whenErrorOccurred = { _, _ -> },
+            isRefreshing = false
         )
     }
 }
@@ -175,7 +180,8 @@ private fun HomeScreenErrorPreview() {
             onEvent = { },
             onLocationClick = { },
             onFutureDaysForecastClick = { },
-            whenErrorOccurred = { _, _ -> }
+            whenErrorOccurred = { _, _ -> },
+            isRefreshing = false
         )
     }
 }
@@ -191,7 +197,8 @@ private fun HomeScreenNoLocationPermissionPreview() {
             onEvent = { },
             onLocationClick = { },
             onFutureDaysForecastClick = { },
-            whenErrorOccurred = { _, _ -> }
+            whenErrorOccurred = { _, _ -> },
+            isRefreshing = false
         )
     }
 }

@@ -31,6 +31,7 @@ fun NavGraphBuilder.homeScreen(
         val homeUiState by viewModel.uiState.collectAsStateWithLifecycle()
         val weatherState by viewModel.weatherState.collectAsStateWithLifecycle()
         val permissionTrigger by viewModel.permissionTrigger.collectAsStateWithLifecycle(null)
+        val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
         HomeScreen(
             uiState = homeUiState,
@@ -39,7 +40,8 @@ fun NavGraphBuilder.homeScreen(
             onEvent = viewModel::onEvent,
             onLocationClick = onLocationClick,
             weatherState = weatherState,
-            onFutureDaysForecastClick = onFutureDaysForecastClick
+            onFutureDaysForecastClick = onFutureDaysForecastClick,
+            isRefreshing = isRefreshing
         )
     }
 }
