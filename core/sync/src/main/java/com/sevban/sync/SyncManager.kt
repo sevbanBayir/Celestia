@@ -19,9 +19,7 @@ class SyncManager @Inject constructor(
 ) {
     
     companion object {
-        private const val SYNC_INTERVAL_HOURS = 3L
         private const val SYNC_INTERVAL_MINS = 15L
-        private const val SYNC_FLEX_INTERVAL_HOURS = 1L
         private const val SYNC_FLEX_INTERVAL_MINS = 5L
         private const val CLEANUP_INTERVAL_HOURS = 24L // Daily cleanup
         private const val CLEANUP_FLEX_INTERVAL_HOURS = 2L
