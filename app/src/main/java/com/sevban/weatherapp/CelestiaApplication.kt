@@ -8,11 +8,11 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 @HiltAndroidApp
-class HiltApplication : Application(), Configuration.Provider {
-    
+class CelestiaApplication : Application(), Configuration.Provider {
+
     @Inject
     lateinit var syncManager: SyncManager
-    
+
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
@@ -24,10 +24,7 @@ class HiltApplication : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
-
-        // Initialize background sync for weather data
         syncManager.initializePeriodicSync()
-
     }
 
 }
