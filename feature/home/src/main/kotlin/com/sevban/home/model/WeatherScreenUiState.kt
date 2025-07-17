@@ -18,6 +18,7 @@ data class WeatherScreenUiState(
 sealed interface WeatherState {
     data object Loading : WeatherState
     data object NoLocationPermission : WeatherState
+    data object LocationServicesDisabled : WeatherState
     data class Error(val failure: Failure) : WeatherState
     data class Success(
         val weather: WeatherUiModel,
